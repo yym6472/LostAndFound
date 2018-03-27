@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:paddingTop="30dp"
+        android:paddingLeft="40dp"
+        android:text="@string/signUp"
+        android:textSize="50sp" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:textSize="13sp" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:hint="@string/pd"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:textSize="13sp" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:hint="@string/repeatpd"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:textSize="13sp" />
+
+    <Button
+        android:id="@+id/sign_up"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:text="@string/signUp"
+        android:background="@drawable/btn_flattening"/>
+
+    <Button
+        android:id="@+id/backSignIn"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/btn_clarity"
+        android:textSize="12sp"
+        android:layout_marginTop="70dp"
+        android:text="@string/backSignIn"/>
+
+</LinearLayout>

@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">失物招领系统</string>
+    <string name="id_">账号</string>
+    <string name="pd">密码</string>
+    <string name="signIn">登录</string>
+    <string name="signUp">注册</string>
+    <string name="set">设置</string>
+    <string name="message">消息</string>
+    <string name="lost">丢失物品</string>
+    <string name="found">捡到物品</string>
+    <string name="name">姓名</string>
+    <string name="address">地址</string>
+    <string name="personInfo">个人信息</string>
+    <string name="wallet">我的钱包</string>
+    <string name="property">我的物品</string>
+    <string name="authentication">实名认证</string>
+    <string name="logOut">退出登录</string>
+    <string name="company">工作单位</string>
+    <string name="homeAddress">家庭地址</string>
+    <string name="phone">手机号</string>
+    <string name="email">邮箱</string>
+    <string name="refer">提交</string>
+    <string name="repeatpd">重复密码</string>
+    <string name="backSignIn">已有账号，返回登录</string>
+    <string name="map">地图</string>
+    <string name="image">上传图片</string>
+    <string name="kind">分类</string>
+    <string name="propertyinfo">请详细描述物品，例如颜色，大小，材质等</string>
+    <string name="next">下一页</string>
+    <string name="lostmaphint">请标出您可能丢失物品的地点或路线</string>
+    <string name="foundmaphint" >请标出您捡到物品的地点</string>
+    <string name="identification">身份证</string>
+    <string name="balance">余额</string>
+    <string name="charge">立即充值</string>
+    <string name="earn">收入</string>
+    <string name="pay">支出</string>
+
+    <string-array name="kinds">
+        <item>证件</item>
+        <item>钱包</item>
+        <item>书籍</item>
+        <item>电子设备</item>
+        <item>其他</item>
+    </string-array>
+
+</resources>

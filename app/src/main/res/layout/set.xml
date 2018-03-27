@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="30dp"
+            app:cardCornerRadius="10dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="10dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatCheckedTextView
+                android:layout_width="220dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="60dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="20dp"
+                android:text="@string/name" />
+
+            <android.support.v7.widget.AppCompatCheckedTextView
+                android:layout_width="220dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="30dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="20dp"
+                android:text="@string/address" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/personInfo"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/btn_clicked"
+        android:gravity="start"
+        android:paddingStart="35dp"
+        android:paddingEnd="35dp"
+        android:paddingTop="8dp"
+        android:textSize="13sp"
+        android:text="@string/personInfo" />
+
+    <Button
+        android:id="@+id/wallet"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_clicked"
+        android:gravity="start"
+        android:paddingStart="35dp"
+        android:paddingEnd="35dp"
+        android:paddingTop="8dp"
+        android:textSize="13sp"
+        android:text="@string/wallet" />
+
+    <Button
+        android:id="@+id/property"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_clicked"
+        android:gravity="left"
+        android:paddingLeft="35dp"
+        android:paddingTop="8dp"
+        android:textSize="13sp"
+        android:text="@string/property" />
+
+    <Button
+        android:id="@+id/authentication"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_clicked"
+        android:gravity="start"
+        android:paddingStart="35dp"
+        android:paddingEnd="35dp"
+        android:paddingTop="8dp"
+        android:textSize="13sp"
+        android:text="@string/authentication" />
+
+    <Button
+        android:id="@+id/logOut"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_clicked"
+        android:gravity="start"
+        android:paddingStart="35dp"
+        android:paddingEnd="35dp"
+        android:paddingTop="8dp"
+        android:textSize="13sp"
+        android:textColor="@color/logout"
+        android:text="@string/logOut" />
+
+
+</LinearLayout>
