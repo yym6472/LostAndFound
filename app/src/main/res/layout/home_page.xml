@@ -8,48 +8,75 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <android.support.v7.widget.CardView
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginStart="30dp"
             app:cardCornerRadius="10dp"
             app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="true"
             app:contentPadding="10dp">
 
         <ImageView
+            android:id="@+id/image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         </android.support.v7.widget.CardView>
-
-        <LinearLayout
-            android:layout_width="250dp"
+        <android.support.v7.widget.CardView
+            android:layout_width="150dp"
             android:layout_height="150dp"
+            app:cardCornerRadius="10dp"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatCheckedTextView
-                android:layout_width="220dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="60dp"
-                android:paddingTop="5dp"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
                 android:paddingLeft="20dp"
-                android:text="@string/name" />
+                android:layout_marginTop="25dp"
+                android:text="@string/name"/>
+            <android.support.v7.widget.AppCompatCheckedTextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:paddingLeft="20dp"
+                android:hint="@string/name" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:paddingLeft="20dp"
+                android:text="@string/phone"/>
 
             <android.support.v7.widget.AppCompatCheckedTextView
-                android:layout_width="220dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="30dp"
-                android:paddingTop="5dp"
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
                 android:paddingLeft="20dp"
-                android:text="@string/address" />
-        </LinearLayout>
+                android:hint="@string/phone" />
+        </LinearLayout></android.support.v7.widget.CardView>
 
     </LinearLayout>
-
+    <android.support.v7.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="10dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <Button
         android:id="@+id/personInfo"
         android:layout_width="match_parent"
@@ -67,7 +94,6 @@
         android:id="@+id/wallet"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginTop="4dp"
         android:background="@drawable/btn_clicked"
         android:gravity="start"
         android:paddingStart="35dp"
@@ -80,7 +106,6 @@
         android:id="@+id/property"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginTop="4dp"
         android:background="@drawable/btn_clicked"
         android:gravity="left"
         android:paddingLeft="35dp"
@@ -92,7 +117,6 @@
         android:id="@+id/authentication"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginTop="4dp"
         android:background="@drawable/btn_clicked"
         android:gravity="start"
         android:paddingStart="35dp"
@@ -105,7 +129,6 @@
         android:id="@+id/logOut"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginTop="4dp"
         android:background="@drawable/btn_clicked"
         android:gravity="start"
         android:paddingStart="35dp"
@@ -114,6 +137,6 @@
         android:textSize="13sp"
         android:textColor="@color/logout"
         android:text="@string/logOut" />
-
-
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

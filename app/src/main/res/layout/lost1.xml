@@ -9,18 +9,15 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         app:cardCornerRadius="10dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:contentPadding="10dp">
-
-
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/image" />
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </android.support.v7.widget.CardView>
 
@@ -31,7 +28,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/kind"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:textSize="15sp"
@@ -47,20 +44,33 @@
     </LinearLayout>
 
     <EditText
+        android:id="@+id/nickname"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:inputType="text"
+        android:hint="@string/nickName" />
+
+    <EditText
+        android:id="@+id/describe"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:textSize="13sp"
-        android:hint="@string/propertyinfo" />
+        android:inputType="text"
+        android:hint="@string/propertyInfo" />
 
     <Button
-        android:id="@+id/next"
-        android:layout_width="300dp"
+        android:id="@+id/refer"
+        android:layout_width="290dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_flattening"
-        android:text="@string/next" />
+        android:text="@string/refer" />
 
 </LinearLayout>

@@ -6,23 +6,23 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:paddingTop="30dp"
-        android:paddingLeft="40dp"
+        android:layout_height="150dp"
+        android:padding="40dp"
         android:text="@string/signUp"
         android:textSize="50sp" />
 
     <EditText
+        android:id="@+id/email"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:maxLines="1"
         android:textSize="13sp" />
 
     <EditText
+        android:id="@+id/pd"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
@@ -33,11 +33,12 @@
         android:textSize="13sp" />
 
     <EditText
+        android:id="@+id/repeatPd"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
-        android:hint="@string/repeatpd"
+        android:hint="@string/repeatPd"
         android:inputType="textPassword"
         android:maxLines="1"
         android:textSize="13sp" />
@@ -59,7 +60,7 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/btn_clarity"
         android:textSize="12sp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="50dp"
         android:text="@string/backSignIn"/>
 
 </LinearLayout>

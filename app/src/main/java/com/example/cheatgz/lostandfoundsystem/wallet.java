@@ -11,18 +11,23 @@ import android.widget.Button;
  */
 
 public class wallet extends AppCompatActivity {
+    private Button btn1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wallet);
 
-        Button btn1=(Button)findViewById(R.id.charge);
+        buttonEvent();//点击按钮事件
+    }
+    protected void buttonEvent(){
+        btn1=(Button)findViewById(R.id.charge);
 
+        //点击充值按钮
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1=new Intent(wallet.this,main.class);
+                Intent intent1=new Intent(wallet.this,home_page.class);
                 startActivity(intent1);
             }
         });

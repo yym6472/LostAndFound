@@ -16,36 +16,36 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:fullBackupContent="false"
+        android:theme="@style/AppTheme.NoActionBar">
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="c97601d51f7c54ec3a35f1f2c2d4e67d"/>
 
         <activity
-            android:name=".sign_in">
+            android:name=".main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".main"></activity>
-        <activity android:name=".sign_up"></activity>
-        <activity android:name=".set"></activity>
-        <activity android:name=".info"></activity>
-        <activity android:name=".lost1"></activity>
-        <activity android:name=".lost2"></activity>
-        <activity android:name=".found1"></activity>
-        <activity android:name=".found2"></activity>
-        <activity android:name=".message"></activity>
-        <activity android:name=".property"></activity>
-        <activity android:name=".authentication"></activity>
-        <activity android:name=".wallet"></activity>
-
+        <activity android:name=".authentication"/>
+        <activity android:name=".change_info"/>
+        <activity android:name=".change_property"/>
+        <activity android:name=".found1"/>
+        <activity android:name=".info"/>
+        <activity android:name=".lost1"/>
+        <activity android:name=".match_property"/>
+        <activity android:name=".message"/>
+        <activity android:name=".property"/>
+        <activity android:name=".sign_in"/>
+        <activity android:name=".sign_up"/>
+        <activity android:name=".home_page"/>
+        <activity android:name=".wallet"/>
     </application>
-
 </manifest>

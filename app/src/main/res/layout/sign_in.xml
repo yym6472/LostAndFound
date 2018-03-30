@@ -7,20 +7,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/app_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:padding="40dp"
-                    android:text="@string/signIn"
-                    android:textSize="50sp" />
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:padding="40dp"
+        android:text="@string/signIn"
+        android:textSize="50sp" />
 
     <EditText
         android:id="@+id/id_"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/edittxt"
+        android:background="@drawable/edit_text"
         android:hint="@string/id_"
         android:inputType="textEmailAddress"
         android:maxLines="1"
@@ -32,29 +32,29 @@
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:background="@drawable/edittxt"
+        android:background="@drawable/edit_text"
         android:hint="@string/pd"
         android:inputType="textPassword"
         android:maxLines="1"
         android:textSize="13sp" />
 
-                <Button
-                    android:id="@+id/sign_in"
-                    android:layout_width="200dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/btn_flattening"
-                    android:text="@string/signIn" />
-                 <Button
-                    android:id="@+id/sign_up"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_horizontal"
-                     android:textSize="12sp"
-                     android:layout_marginTop="100dp"
-                     android:background="@drawable/btn_clarity"
-                    android:text="@string/signUp" />
+    <Button
+        android:id="@+id/sign_in"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_flattening"
+        android:text="@string/signIn" />
+    <Button
+        android:id="@+id/sign_up"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="12sp"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/btn_clarity"
+        android:text="@string/signUp" />
 
 </LinearLayout>

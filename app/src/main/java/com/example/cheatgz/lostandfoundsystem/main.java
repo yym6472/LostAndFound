@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.UiSettings;
 import com.amap.api.maps2d.model.MyLocationStyle;
 
 /**
@@ -15,44 +17,38 @@ import com.amap.api.maps2d.model.MyLocationStyle;
  */
 
 public class main extends AppCompatActivity {
-    MapView mMapView=null;
+    private MapView mMapView;
+    private Button btn1;
+    private Button btn2;
+    private Button btn3;
+    private Button btn4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        initMap(savedInstanceState);//加载地图
 
-        mMapView=(MapView)findViewById(R.id.map);
-        mMapView.onCreate(savedInstanceState);
+        buttonEvent();
+    }
 
+    protected void buttonEvent(){
 
-        AMap aMap=null;
-        aMap = mMapView.getMap();
+        btn1=(Button)findViewById(R.id.set);
+        btn2=(Button)findViewById(R.id.message);
+        btn3=(Button)findViewById(R.id.lost);
+        btn4=(Button)findViewById(R.id.found);
 
-
-        //实现定位蓝点
-        MyLocationStyle myLocationStyle;
-        myLocationStyle=new MyLocationStyle();
-        myLocationStyle.interval(2000);
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW) ;//连续定位、且将视角移动到地图中心点，定位蓝点跟随设备移动。（1秒1次定位）
-        aMap.setMyLocationStyle(myLocationStyle);
-        aMap.getUiSettings().setMyLocationButtonEnabled(true);
-        aMap.setMyLocationEnabled(true);//设置定位蓝点是否可见
-
-
-        Button btn1=(Button)findViewById(R.id.set);
-        Button btn2=(Button)findViewById(R.id.message);
-        Button btn3=(Button)findViewById(R.id.lost);
-        Button btn4=(Button)findViewById(R.id.found);
-
+        //点击设置按钮
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1=new Intent(main.this,set.class);
+                Intent intent1=new Intent(main.this,home_page.class);
                 startActivity(intent1);
             }
         });
 
+        //点击匹配信息按钮
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +57,7 @@ public class main extends AppCompatActivity {
             }
         });
 
+        //点击捡到物品按钮
         btn3.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +66,7 @@ public class main extends AppCompatActivity {
             }
         }));
 
+        //点击丢失物品按钮
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +75,31 @@ public class main extends AppCompatActivity {
             }
         });
     }
+    protected void initMap(Bundle savedInstanceState){
+        AMap aMap = null;
+        UiSettings mUiSettings;//定义一个UiSettings对象
 
+        mMapView=(MapView)findViewById(R.id.map);
+        mMapView.onCreate(savedInstanceState);
+        aMap = mMapView.getMap();
+        mUiSettings = aMap.getUiSettings();//实例化UiSettings类对象
+
+        //实现定位蓝点
+        MyLocationStyle myLocationStyle;
+        myLocationStyle=new MyLocationStyle();
+        myLocationStyle.interval(2000);
+        aMap.setMyLocationStyle(myLocationStyle);
+        aMap.setMyLocationEnabled(true);//设置定位蓝点是否可见
+
+        //地图初始显示设置
+        aMap.moveCamera(CameraUpdateFactory.zoomTo(18));//地图初始显示比例
+        myLocationStyle.showMyLocation(true);//地图初始位置
+
+        //控件设置
+        mUiSettings.setCompassEnabled(true);//指南针
+        mUiSettings.setScaleControlsEnabled(true);//比例尺
+        mUiSettings.setMyLocationButtonEnabled(true);//定位按钮
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
