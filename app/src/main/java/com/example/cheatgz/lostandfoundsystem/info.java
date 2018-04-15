@@ -19,13 +19,8 @@ public class info extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info);
-
-        buttonEvent();//点击按钮事件
-    }
-
-    protected void buttonEvent() {
         btn1 = (Button)findViewById(R.id.refer);
-        //提交按钮
+        //修改按钮
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

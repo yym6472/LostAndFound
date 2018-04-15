@@ -27,31 +27,25 @@ public class change_info extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_info);
-
-        buttonEvent();//点击按钮事件
-    }
-    protected void buttonEvent(){
-        btn1=(Button)findViewById(R.id.refer);
-        //提交按钮
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent1=new Intent(change_info.this,home_page.class);
-                startActivity(intent1);
-            }
-        });
-    }
-
-    protected void editTextEvent(){
         editText1=(EditText)findViewById(R.id.name);
         editText2=(EditText)findViewById(R.id.company);
         editText3=(EditText)findViewById(R.id.homeAddress);
         editText4=(EditText)findViewById(R.id.phone);
         editText5=(EditText)findViewById(R.id.email);
-        string1=editText1.getText().toString();
-        string2=editText2.getText().toString();
-        string3=editText3.getText().toString();
-        string4=editText4.getText().toString();
-        string5=editText5.getText().toString();
+        btn1=(Button)findViewById(R.id.refer);
+
+        //提交按钮
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                string1=editText1.getText().toString();
+                string2=editText2.getText().toString();
+                string3=editText3.getText().toString();
+                string4=editText4.getText().toString();
+                string5=editText5.getText().toString();
+                android.widget.Toast.makeText(change_info.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 }
