@@ -26,10 +26,10 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="c97601d51f7c54ec3a35f1f2c2d4e67d"/>
+            android:value="3f8c0454bf2a3aaa3fa44422f9b2b28c"/>
 
         <activity
-            android:name=".main">
+            android:name=".sign_in">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -39,14 +39,14 @@
         <activity android:name=".change_info"/>
         <activity android:name=".change_property"/>
         <activity android:name=".found1"/>
+        <activity android:name=".home_page"/>
         <activity android:name=".info"/>
         <activity android:name=".lost1"/>
+        <activity android:name=".main"/>
         <activity android:name=".match_property"/>
         <activity android:name=".message"/>
         <activity android:name=".property"/>
-        <activity android:name=".sign_in"/>
         <activity android:name=".sign_up"/>
-        <activity android:name=".home_page"/>
         <activity android:name=".wallet"/>
     </application>
 </manifest>

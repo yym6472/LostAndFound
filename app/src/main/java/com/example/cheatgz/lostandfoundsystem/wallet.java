@@ -17,13 +17,8 @@ public class wallet extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wallet);
-
-        buttonEvent();//点击按钮事件
-    }
-    protected void buttonEvent(){
         btn1=(Button)findViewById(R.id.charge);
 
-        //点击充值按钮
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

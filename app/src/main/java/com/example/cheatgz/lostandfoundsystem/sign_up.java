@@ -12,23 +12,23 @@ import android.widget.EditText;
  */
 
 public class sign_up extends AppCompatActivity {
-    private EditText editText1;//邮箱
-    private EditText editText2;
-    private EditText editText3;
+    private EditText editText1;//手机号
+    private EditText editText2;//密码
+    private EditText editText3;//重复密码
     private Button btn1;
     private Button btn2;
-    private String string1;
-    private String string2;
-    private String string3;
+    private String string1;//手机号
+    private String string2;//密码
+    private String string3;//重复密码
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
 
-        buttonEvent();//点击按钮事件
-    }
-    protected void buttonEvent(){
+        editText1=(EditText)findViewById(R.id.email);
+        editText2=(EditText)findViewById(R.id.pd);
+        editText3=(EditText)findViewById(R.id.repeatPd);
         btn1=(Button)findViewById(R.id.sign_up);
         btn2=(Button)findViewById(R.id.backSignIn);
 
@@ -36,8 +36,22 @@ public class sign_up extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1=new Intent(sign_up.this,sign_in.class);
-                startActivity(intent1);
+                string1=editText1.getText().toString();//邮箱
+                string2=editText2.getText().toString();//密码
+                string3=editText3.getText().toString();//重复密码
+                if(string1==null||string1.length()<=0){
+                    android.widget.Toast.makeText(sign_up.this, "账号不可为空", android.widget.Toast.LENGTH_SHORT).show();
+                }else if(phoneExisted(string1)){
+                    android.widget.Toast.makeText(sign_up.this, "账号已存在", android.widget.Toast.LENGTH_SHORT).show();
+                }else if(string2.length()<= 5||string2.length()>18){
+                    android.widget.Toast.makeText(sign_up.this, "密码不少于6位不大于18位", android.widget.Toast.LENGTH_SHORT).show();
+                }else if(!string2.equals(string3)){
+                    android.widget.Toast.makeText(sign_up.this, "两次密码不一致", android.widget.Toast.LENGTH_SHORT).show();
+                }else
+                    {
+                        android.widget.Toast.makeText(sign_up.this, "注册成功", android.widget.Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
             }
         });
 
@@ -45,17 +59,11 @@ public class sign_up extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent2=new Intent(sign_up.this,sign_in.class);
-                startActivity(intent2);
+                finish();
             }
         });
     }
-    protected void editTextEvent(){
-        editText1=(EditText)findViewById(R.id.email);
-        editText2=(EditText)findViewById(R.id.pd);
-        editText3=(EditText)findViewById(R.id.repeatPd);
-        string1=editText1.getText().toString();//邮箱
-        string2=editText2.getText().toString();//密码
-        string3=editText3.getText().toString();//重复密码
+    protected Boolean phoneExisted(String s1){
+        return true;
     }
 }

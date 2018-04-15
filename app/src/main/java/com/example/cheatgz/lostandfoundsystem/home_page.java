@@ -2,6 +2,7 @@ package com.example.cheatgz.lostandfoundsystem;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class home_page extends AppCompatActivity {
     private ImageView imageView1;
     private String string1="李先森";//姓名
     private String string2="12345678911";//手机号
+
 
     @Override
 
@@ -109,7 +111,11 @@ public class home_page extends AppCompatActivity {
     private DialogInterface.OnClickListener click1=new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
-            finishAndRemoveTask();
+            writeState();
+            Intent intent=new Intent(home_page.this,sign_in.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         }
     };
     private DialogInterface.OnClickListener click2=new DialogInterface.OnClickListener() {
@@ -118,4 +124,10 @@ public class home_page extends AppCompatActivity {
             dialogInterface.cancel();
         }
     };
+    public void writeState(){
+            SharedPreferences sp1=getSharedPreferences("identification",MODE_PRIVATE);
+            SharedPreferences.Editor ed=sp1.edit();
+            ed.putBoolean("state",false);
+            ed.apply();
+        }
 }

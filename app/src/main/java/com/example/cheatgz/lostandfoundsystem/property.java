@@ -42,7 +42,7 @@ public class property extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
-        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent intent2=new Intent(property.this,change_property.class);

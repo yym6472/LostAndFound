@@ -17,20 +17,14 @@ public class match_property extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.match_property);
-
-        setTextView();
-        setImageView();
-    }
-    protected void setTextView(){
         textView1=(TextView)findViewById(R.id.describe);
         textView2=(TextView)findViewById(R.id.name);
         textView3=(TextView)findViewById(R.id.phone);
+        imageView1=(ImageView)findViewById(R.id.image);
+
         textView1.setText(string1);
         textView2.setText(string2);
         textView3.setText(string3);
-    }
-    protected void setImageView(){
-        imageView1=(ImageView)findViewById(R.id.image);
         imageView1.setImageResource(R.mipmap.wallet);
     }
 }

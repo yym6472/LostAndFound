@@ -21,25 +21,19 @@ public class authentication extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.authentication);
-
-        buttonEvent();
-    }
-    protected  void buttonEvent(){
         btn1 = (Button) findViewById(R.id.refer);
+        editText1=(EditText)findViewById(R.id.name);
+        editText2=(EditText)findViewById(R.id.identify);
 
         /* 点击提交认证按钮 */
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(authentication.this, home_page.class);
-                startActivity(intent1);
+                string1=editText1.getText().toString();
+                string2=editText2.getText().toString();
+                android.widget.Toast.makeText(authentication.this, "认证成功", android.widget.Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
-    }
-    protected void editTextEvent(){
-        editText1=(EditText)findViewById(R.id.name);
-        editText2=(EditText)findViewById(R.id.identify);
-        string1=editText1.getText().toString();
-        string2=editText2.getText().toString();
     }
 }
