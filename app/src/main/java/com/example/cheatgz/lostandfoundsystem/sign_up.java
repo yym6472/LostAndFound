@@ -1,11 +1,14 @@
 package com.example.cheatgz.lostandfoundsystem;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.yymstaygold.lostandfound.client.ClientDelegation;
 
 /**
  * Created by CheatGZ on 2018/3/26.
@@ -41,17 +44,35 @@ public class sign_up extends AppCompatActivity {
                 string3=editText3.getText().toString();//重复密码
                 if(string1==null||string1.length()<=0){
                     android.widget.Toast.makeText(sign_up.this, "账号不可为空", android.widget.Toast.LENGTH_SHORT).show();
-                }else if(phoneExisted(string1)){
-                    android.widget.Toast.makeText(sign_up.this, "账号已存在", android.widget.Toast.LENGTH_SHORT).show();
                 }else if(string2.length()<= 5||string2.length()>18){
                     android.widget.Toast.makeText(sign_up.this, "密码不少于6位不大于18位", android.widget.Toast.LENGTH_SHORT).show();
                 }else if(!string2.equals(string3)){
                     android.widget.Toast.makeText(sign_up.this, "两次密码不一致", android.widget.Toast.LENGTH_SHORT).show();
-                }else
-                    {
-                        android.widget.Toast.makeText(sign_up.this, "注册成功", android.widget.Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
+                }else {
+                    new Thread(new Runnable() {
+
+                        private Handler handler = new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                super.handleMessage(msg);
+                                if (msg.arg1 == 1) {
+                                    android.widget.Toast.makeText(sign_up.this, "注册成功", android.widget.Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    android.widget.Toast.makeText(sign_up.this, "注册失败，账号已存在", android.widget.Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        };
+
+                        @Override
+                        public void run() {
+                            boolean result = ClientDelegation.register(string1, string2);
+                            Message message = new Message();
+                            message.arg1 = result ? 1 : 0;
+                            handler.sendMessage(message);
+                        }
+                    }).start();
+                }
             }
         });
 
@@ -62,8 +83,5 @@ public class sign_up extends AppCompatActivity {
                 finish();
             }
         });
-    }
-    protected Boolean phoneExisted(String s1){
-        return true;
     }
 }
