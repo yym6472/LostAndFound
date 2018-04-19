@@ -1,51 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cheatgz.lostandfoundsystem">
 
-    <!--允许程序打开网络套接字-->
+    <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--允许程序设置内置sd卡的写权限-->
+    <!-- 允许程序设置内置sd卡的写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--允许程序获取网络状态-->
+    <!-- 允许程序获取网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--允许程序访问WiFi网络信息-->
+    <!-- 允许程序访问WiFi网络信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--允许程序读写手机状态和身份-->
+    <!-- 允许程序读写手机状态和身份 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+    <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
-        android:fullBackupContent="false"
         android:theme="@style/AppTheme.NoActionBar">
-
+        <service android:name="com.amap.api.location.APSService"/>
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="3f8c0454bf2a3aaa3fa44422f9b2b28c"/>
 
-        <activity
-            android:name=".sign_in">
+        <activity android:name=".sign_in">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".authentication"/>
-        <activity android:name=".change_info"/>
-        <activity android:name=".change_property"/>
-        <activity android:name=".found1"/>
-        <activity android:name=".home_page"/>
-        <activity android:name=".info"/>
-        <activity android:name=".lost1"/>
-        <activity android:name=".main"/>
-        <activity android:name=".match_property"/>
-        <activity android:name=".message"/>
-        <activity android:name=".property"/>
-        <activity android:name=".sign_up"/>
-        <activity android:name=".wallet"/>
+        <activity android:name=".authentication" />
+        <activity android:name=".change_info" />
+        <activity android:name=".change_property" />
+        <activity android:name=".found1" />
+        <activity android:name=".home_page" />
+        <activity android:name=".info" />
+        <activity android:name=".lost1" />
+        <activity android:name=".main" />
+        <activity android:name=".match_property" />
+        <activity android:name=".message" />
+        <activity android:name=".property" />
+        <activity android:name=".sign_up" />
+        <activity android:name=".wallet" />
+
+        <service
+            android:name=".LocateService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
+
 </manifest>

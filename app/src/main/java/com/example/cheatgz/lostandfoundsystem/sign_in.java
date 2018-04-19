@@ -1,10 +1,14 @@
 package com.example.cheatgz.lostandfoundsystem;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -23,6 +27,7 @@ public class sign_in extends AppCompatActivity {
     private String string3;//从数据库提出的手机号
     private String string4="000";//从数据库中提出的对应账号的密码
     private CheckBox checkBox1;
+    private LocateService startService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,7 @@ public class sign_in extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 string1=editText1.getText().toString();//手机号
                 string2=editText2.getText().toString();//密码
                 if (string1 == null || string1.length() <= 0) {
@@ -45,6 +51,16 @@ public class sign_in extends AppCompatActivity {
                 } else if (!string4.equals(string2)) {
                     android.widget.Toast.makeText(sign_in.this, "账号或密码错误", android.widget.Toast.LENGTH_SHORT).show();
                 } else {
+                      Intent startIntent=new Intent(sign_in.this,LocateService.class);
+                      stopService(startIntent);
+                      startService(startIntent);
+//                    SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
+//                    ContentValues values=new ContentValues();
+//                    values.put("UserID",11);
+//                    values.put("XLocate", 123);
+//                    values.put("YLocate",456);
+//                    values.put("Time","2015-03-18-20-20");
+//                    sqLiteDatabase.insert("user_location", null, values);
                     Intent intent1 = new Intent(sign_in.this, main.class);
                     startActivity(intent1);
                     android.widget.Toast.makeText(sign_in.this, "登录成功", android.widget.Toast.LENGTH_SHORT).show();
