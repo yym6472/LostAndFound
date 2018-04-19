@@ -3,11 +3,15 @@ package com.example.cheatgz.lostandfoundsystem;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
+import com.yymstaygold.lostandfound.client.ClientDelegation;
 
 /**
  * Created by CheatGZ on 2018/3/26.
@@ -21,7 +25,6 @@ public class sign_in extends AppCompatActivity {
     private String string1;//输入的手机号
     private String string2;//输入的密码
     private String string3;//从数据库提出的手机号
-    private String string4="000";//从数据库中提出的对应账号的密码
     private CheckBox checkBox1;
 
     @Override
@@ -38,17 +41,36 @@ public class sign_in extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                string1=editText1.getText().toString();//手机号
-                string2=editText2.getText().toString();//密码
+                string1 = editText1.getText().toString();//手机号
+                string2 = editText2.getText().toString();//密码
                 if (string1 == null || string1.length() <= 0) {
                     android.widget.Toast.makeText(sign_in.this, "账号不可为空", android.widget.Toast.LENGTH_SHORT).show();
-                } else if (!string4.equals(string2)) {
-                    android.widget.Toast.makeText(sign_in.this, "账号或密码错误", android.widget.Toast.LENGTH_SHORT).show();
+                } else if (string2 == null || string2.length() <= 0) {
+                    android.widget.Toast.makeText(sign_in.this, "密码不能为空", android.widget.Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent intent1 = new Intent(sign_in.this, main.class);
-                    startActivity(intent1);
-                    android.widget.Toast.makeText(sign_in.this, "登录成功", android.widget.Toast.LENGTH_SHORT).show();
-                    finish();
+                    new Thread(new Runnable() {
+                        private Handler handler = new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                super.handleMessage(msg);
+                                if (msg.arg1 == -1) {
+                                    android.widget.Toast.makeText(sign_in.this, "账号或密码错误", android.widget.Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Intent intent1 = new Intent(sign_in.this, main.class);
+                                    startActivity(intent1);
+                                    android.widget.Toast.makeText(sign_in.this, "登录成功，用户Id为" + msg.arg1, android.widget.Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            }
+                        };
+                        @Override
+                        public void run() {
+                            int userId = ClientDelegation.checkPassword(string1, string2);
+                            Message msg = new Message();
+                            msg.arg1 = userId;
+                            handler.sendMessage(msg);
+                        }
+                    }).start();
                 }
             }
         });
