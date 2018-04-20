@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 public class Database extends SQLiteOpenHelper{
-    public static String createTable_UserLocate="create table user_location (UserID integer , XLocate double,YLocate double,Time text primary key)";
+    public static String createTable_UserLocate="create table user_location (UserID integer , XLocate double,YLocate double,Time datetime primary key)";
     private Context mContext;
     public Database(Context context , String name, SQLiteDatabase.CursorFactory cursorFactory, int version) {
         super(context,name,cursorFactory,version);
@@ -19,8 +19,8 @@ public class Database extends SQLiteOpenHelper{
         Toast.makeText(mContext,"succeed",Toast.LENGTH_SHORT).show();
 }
 
-@Override
-public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
-        }
-        }
+    }
+}

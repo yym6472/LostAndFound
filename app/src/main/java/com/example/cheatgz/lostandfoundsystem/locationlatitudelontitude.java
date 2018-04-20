@@ -52,12 +52,15 @@ public class locationlatitudelontitude implements AMapLocationListener, Location
     private String mytime=new String();
     Database database;
 
+    private int userId;
 
-    public locationlatitudelontitude(Context context){
+    public locationlatitudelontitude(Context context, int userId){
+        this.userId = userId;
         database = new Database(context , "UserLocation.db", null, 1);
 
         sqLiteDatabase = database.getWritableDatabase();
-
+        sqLiteDatabase.execSQL("drop  table user_location");
+        sqLiteDatabase.execSQL("create table user_location (UserID integer , XLocate double,YLocate double,Time datetime primary key)");
     //     locationlist = new ArrayList<locationobject>();
         loc=new locationobject();
         this.context=context;
@@ -132,7 +135,7 @@ public class locationlatitudelontitude implements AMapLocationListener, Location
 
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
-        System.out.println("定位  3");
+        //System.out.println("定位  3");
         if(aMapLocation != null){
             if(aMapLocation.getErrorCode()==0) {
                 aMapLocation.getLocationType();//获取当前定位结果来源
@@ -150,12 +153,12 @@ public class locationlatitudelontitude implements AMapLocationListener, Location
                 loc.setLongtitude(aMapLocation.getLongitude());
                 loc.setTime(mytime);
                 ContentValues values=new ContentValues();
-                values.put("UserID",123);
+                values.put("UserID", userId);
                 values.put("XLocate", loc.getLatitude());
                 values.put("YLocate",loc.getLongtitude());
                 values.put("Time",loc.getTime());
                 sqLiteDatabase.insert("user_location",null,values);
-                System.out.println(loc.getTime());
+               // System.out.println(loc.getTime());
 
 //                if (locationlist.size() == 10)
 //                {

@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
+import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
 
 public class LocateService extends Service {
     private Database database;
@@ -30,7 +31,8 @@ public class LocateService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        database = new Database(this, "UserLocation.db", null, 1);
 //        SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
-        locationlatitudelontitude location=new locationlatitudelontitude(this);
+        ThisApplication application = (ThisApplication) getApplication();
+        locationlatitudelontitude location=new locationlatitudelontitude(this, application.getUserId());
         System.out.println(123124);
         location.location();
 //        //System.out.println(location.locationlist.get(1).getTime());

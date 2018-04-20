@@ -39,11 +39,15 @@
     <string name="wallet">我的钱包</string>
 
     <string-array name="kinds">
-        <item>证件</item>
-        <item>钱包</item>
-        <item>书籍</item>
-        <item>宠物</item>
-        <item>电子设备</item>
+        <item>证件、卡片</item>
+        <item>钱包、书包、手提包</item>
+        <item>数码产品及其配件</item>
+        <item>佩戴、装饰物</item>
+        <item>衣物</item>
+        <item>票类</item>
+        <item>书</item>
+        <item>伞</item>
+        <item>钥匙</item>
         <item>其他</item>
     </string-array>
 </resources>

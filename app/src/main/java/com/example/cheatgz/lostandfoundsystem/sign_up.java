@@ -42,8 +42,8 @@ public class sign_up extends AppCompatActivity {
                 string1=editText1.getText().toString();//邮箱
                 string2=editText2.getText().toString();//密码
                 string3=editText3.getText().toString();//重复密码
-                if(string1==null||string1.length()<=0){
-                    android.widget.Toast.makeText(sign_up.this, "账号不可为空", android.widget.Toast.LENGTH_SHORT).show();
+                if(string1==null||string1.length()!=11){
+                    android.widget.Toast.makeText(sign_up.this, "手机号不合法", android.widget.Toast.LENGTH_SHORT).show();
                 }else if(string2.length()<= 5||string2.length()>18){
                     android.widget.Toast.makeText(sign_up.this, "密码不少于6位不大于18位", android.widget.Toast.LENGTH_SHORT).show();
                 }else if(!string2.equals(string3)){

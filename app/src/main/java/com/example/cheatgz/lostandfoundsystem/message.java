@@ -1,7 +1,10 @@
 package com.example.cheatgz.lostandfoundsystem;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.Gravity;
@@ -13,29 +16,84 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
+import com.yymstaygold.lostandfound.client.ClientDelegation;
+import com.yymstaygold.lostandfound.client.util.match.MatchInfo;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created by CheatGZ on 2018/3/26.
  */
 
 public class message extends AppCompatActivity {
     private ExpandableListView listView1;
+
+
+    ArrayList<String> lostProperty;//备注名
+    ArrayList<ArrayList<String>> matchResult;//物品详细描述
+
+    //限制最多只展开一项
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.message);
-        setListView1();
+
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == 1) {
+                    setListView1();
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ThisApplication application = (ThisApplication) getApplication();
+                ArrayList<MatchInfo> pairs = ClientDelegation.checkNewFounds(application.getUserId());
+                HashMap<Integer, ArrayList<Integer>> groups = new HashMap<>();
+                for (MatchInfo pair : pairs) {
+                    int lostId = pair.getLostId();
+                    int foundId = pair.getFoundId();
+                    if (groups.containsKey(lostId)) {
+                        groups.get(lostId).add(foundId);
+                    } else {
+                        ArrayList<Integer> founds = new ArrayList<>();
+                        founds.add(foundId);
+                        groups.put(lostId, founds);
+                    }
+                }
+                lostProperty = new ArrayList<>();
+                matchResult = new ArrayList<>();
+                int count = 0;
+                for (int lostId : groups.keySet()) {
+                    lostProperty.add(getLostNameById(lostId));
+                    ArrayList<String> founds = new ArrayList<>();
+                    for (int foundId : groups.get(lostId)) {
+                        founds.add(getFoundNameById(foundId));
+                    }
+                    matchResult.add(founds);
+                }
+            }
+
+            private String getLostNameById(int lostId) {
+                // TODO: to change
+                return lostId + "";
+            }
+
+            private String getFoundNameById(int foundId) {
+                return ClientDelegation.downloadFoundInfo(foundId).getFoundName();
+            }
+        }).start();
     }
 
     protected void setListView1(){
         final ExpandableListAdapter expandableListAdapter1=new BaseExpandableListAdapter() {
-
-            String[] lostProperty=new String[]{"钱包","身份证","相机"};//备注名
-            String[][] matchResult=new String[][]{{"红色皮革钱包","绿色棉布钱包2","黄色丝绸钱包"},
-                    {"江苏省身份证","浙江省身份证","北京市身份证","山东省身份证"},
-                    {"蓝色拍立得相机"}};//物品详细描述
-
-            //限制最多只展开一项
-
 
             private TextView getTextView(){
                 TextView textView1=new TextView(message.this);
@@ -46,22 +104,22 @@ public class message extends AppCompatActivity {
 
             @Override
             public int getGroupCount() {
-                return lostProperty.length;
+                return lostProperty.size();
             }
 
             @Override
             public int getChildrenCount(int groupPosition) {
-                return matchResult[groupPosition].length;
+                return matchResult.get(groupPosition).size();
             }
 
             @Override
             public Object getGroup(int groupPosition) {
-                return matchResult[groupPosition].length;
+                return matchResult.get(groupPosition).size();
             }
 
             @Override
             public Object getChild(int groupPosition, int childPosition) {
-                return matchResult[groupPosition][childPosition];
+                return matchResult.get(groupPosition).get(childPosition);
             }
 
             @Override
@@ -83,7 +141,7 @@ public class message extends AppCompatActivity {
             public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
                 CardView cardView1=new CardView(message.this);
                 TextView textView1=getTextView();
-                textView1.setText(lostProperty[groupPosition]);
+                textView1.setText(lostProperty.get(groupPosition));
                 textView1.setHeight(200);
                 textView1.setGravity(Gravity.CENTER_VERTICAL);
                 cardView1.addView(textView1);

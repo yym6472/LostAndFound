@@ -1,6 +1,7 @@
 package com.yymstaygold.lostandfound.client;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yymstaygold.lostandfound.client.entity.Found;
@@ -132,6 +133,10 @@ public class ClientDelegation {
             mapper.writeValue(out, found);
             out.flush();
             out.close();
+            Log.w("ClientDelegation", "Upload found message has sent");
+            if (conn.getResponseCode() == 200) {
+                conn.disconnect();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

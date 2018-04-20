@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
 
 /**
@@ -57,9 +58,14 @@ public class sign_in extends AppCompatActivity {
                                 if (msg.arg1 == -1) {
                                     android.widget.Toast.makeText(sign_in.this, "账号或密码错误", android.widget.Toast.LENGTH_SHORT).show();
                                 } else {
+
                                     Intent startIntent=new Intent(sign_in.this,LocateService.class);
                                     stopService(startIntent);
                                     startService(startIntent);
+
+                                    ThisApplication application = (ThisApplication) getApplication();
+                                    application.setUserId(msg.arg1);
+
                                     Intent intent1 = new Intent(sign_in.this, main.class);
                                     startActivity(intent1);
                                     android.widget.Toast.makeText(sign_in.this, "登录成功，用户Id为" + msg.arg1, android.widget.Toast.LENGTH_SHORT).show();
@@ -93,7 +99,6 @@ public class sign_in extends AppCompatActivity {
         SharedPreferences.Editor ed=sp1.edit();
 
          if(checkBox1.isChecked()){
-             ed.putString("phone",string1);
              ed.putBoolean("state",true);
              ed.commit();
          }
