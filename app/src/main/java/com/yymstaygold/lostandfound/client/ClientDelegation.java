@@ -135,9 +135,11 @@ public class ClientDelegation {
             mapper.writeValue(out, found);
             out.flush();
             out.close();
+            mapper.writeValue(System.out, found);
+            System.out.flush();
             Log.w("ClientDelegation", "Upload found message has sent");
             if (conn.getResponseCode() == 200) {
-                conn.disconnect();
+                conn.getInputStream().close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -161,7 +163,6 @@ public class ClientDelegation {
             mapper.writeValue(out, lost);
             out.flush();
             out.close();
-
 
             if (conn.getResponseCode() == 200) {
                 DataInputStream in = new DataInputStream(conn.getInputStream());

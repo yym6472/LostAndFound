@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
+import com.yymstaygold.lostandfound.client.entity.Lost;
 import com.yymstaygold.lostandfound.client.util.match.MatchInfo;
 
 import java.util.ArrayList;
@@ -82,8 +83,7 @@ public class message extends AppCompatActivity {
             }
 
             private String getLostNameById(int lostId) {
-                // TODO: to change
-                return lostId + "";
+                return ClientDelegation.downloadLostInfo(lostId).getLostName();
             }
 
             private String getFoundNameById(int foundId) {

@@ -53,7 +53,9 @@
         <activity android:name=".lost1" />
         <activity android:name=".main" />
         <activity android:name=".match_property" />
-        <activity android:name=".message" />
+        <activity android:name=".message"
+            android:theme="@style/MyDialogStyle">
+        </activity>
         <activity android:name=".property" />
         <activity android:name=".sign_up" />
         <activity android:name=".wallet" />
