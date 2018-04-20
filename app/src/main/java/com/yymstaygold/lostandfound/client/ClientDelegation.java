@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ClientDelegation {
@@ -130,6 +131,7 @@ public class ClientDelegation {
             conn.setReadTimeout(6000);
             OutputStream out = conn.getOutputStream();
             ObjectMapper mapper = new ObjectMapper();
+            mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
             mapper.writeValue(out, found);
             out.flush();
             out.close();
@@ -155,6 +157,7 @@ public class ClientDelegation {
             conn.setReadTimeout(6000);
             OutputStream out = conn.getOutputStream();
             ObjectMapper mapper = new ObjectMapper();
+            mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
             mapper.writeValue(out, lost);
             out.flush();
             out.close();
@@ -230,9 +233,98 @@ public class ClientDelegation {
 
             if (conn.getResponseCode() == 200) {
                 ObjectMapper mapper = new ObjectMapper();
+                mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
                 Found found = mapper.readValue(conn.getInputStream(), Found.class);
                 conn.disconnect();
                 return found;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Lost downloadLostInfo(int lostId) {
+        String urlString = "http://23.106.132.78/LostAndFoundServer/download_lost_info";
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setReadTimeout(6000);
+            DataOutputStream out = new DataOutputStream(conn.getOutputStream());
+            out.writeInt(lostId);
+            out.flush();
+            out.close();
+
+            if (conn.getResponseCode() == 200) {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+                Lost lost = mapper.readValue(conn.getInputStream(), Lost.class);
+                conn.disconnect();
+                return lost;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList<Integer> checkUserLost(int userId) {
+        String urlString = "http://23.106.132.78/LostAndFoundServer/check_user_lost";
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setReadTimeout(6000);
+            DataOutputStream out = new DataOutputStream(conn.getOutputStream());
+            out.writeInt(userId);
+            out.flush();
+            out.close();
+
+            if (conn.getResponseCode() == 200) {
+                ArrayList<Integer> result = new ArrayList<>();
+                DataInputStream in = new DataInputStream(conn.getInputStream());
+                int lostId;
+                while ((lostId = in.readInt()) != -1) {
+                    result.add(lostId);
+                }
+                return result;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList<Integer> checkUserFound(int userId) {
+        String urlString = "http://23.106.132.78/LostAndFoundServer/check_user_found";
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setReadTimeout(6000);
+            DataOutputStream out = new DataOutputStream(conn.getOutputStream());
+            out.writeInt(userId);
+            out.flush();
+            out.close();
+
+            if (conn.getResponseCode() == 200) {
+                ArrayList<Integer> result = new ArrayList<>();
+                DataInputStream in = new DataInputStream(conn.getInputStream());
+                int foundId;
+                while ((foundId = in.readInt()) != -1) {
+                    result.add(foundId);
+                }
+                return result;
             }
         } catch (IOException e) {
             e.printStackTrace();
