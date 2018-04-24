@@ -1,5 +1,6 @@
 package com.example.cheatgz.lostandfoundsystem;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,7 +31,6 @@ import java.util.HashMap;
 
 public class message extends AppCompatActivity {
     private ExpandableListView listView1;
-
 
     ArrayList<String> lostProperty;//备注名
     ArrayList<ArrayList<String>> matchResult;//物品详细描述

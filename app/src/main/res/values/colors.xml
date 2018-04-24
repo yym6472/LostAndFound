@@ -7,4 +7,5 @@
     <color name="btn2">#FFFFFF</color>
     <color name="edittext">#A4D3EE</color>
     <color name="logout">#FF0000</color>
+    <color name="backgroud">#969696</color>
 </resources>

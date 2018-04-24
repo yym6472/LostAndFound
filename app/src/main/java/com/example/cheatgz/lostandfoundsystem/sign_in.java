@@ -1,5 +1,6 @@
 package com.example.cheatgz.lostandfoundsystem;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,9 +26,7 @@ public class sign_in extends AppCompatActivity {
     private Button btn2;
     private String string1;//输入的手机号
     private String string2;//输入的密码
-    private String string3;//从数据库提出的手机号
     private CheckBox checkBox1;
-    private LocateService startService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,19 +37,24 @@ public class sign_in extends AppCompatActivity {
         checkBox1=(CheckBox)findViewById(R.id.rememberState);
         btn1=(Button)findViewById(R.id.sign_in);
         btn2=(Button)findViewById(R.id.sign_up);
-
+        checkBox1.setChecked(true);
+        load();
         //点击登录按钮
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 string1 = editText1.getText().toString();//手机号
                 string2 = editText2.getText().toString();//密码
+                if(checkBox1.isChecked()){
+                    writePd(string1,string2);
+                }
                 if (string1 == null || string1.length() <= 0) {
                     android.widget.Toast.makeText(sign_in.this, "账号不可为空", android.widget.Toast.LENGTH_SHORT).show();
                 } else if (string2 == null || string2.length() <= 0) {
                     android.widget.Toast.makeText(sign_in.this, "密码不能为空", android.widget.Toast.LENGTH_SHORT).show();
                 } else {
                     new Thread(new Runnable() {
+                        @SuppressLint("HandlerLeak")
                         private Handler handler = new Handler() {
                             @Override
                             public void handleMessage(Message msg) {
@@ -58,7 +62,6 @@ public class sign_in extends AppCompatActivity {
                                 if (msg.arg1 == -1) {
                                     android.widget.Toast.makeText(sign_in.this, "账号或密码错误", android.widget.Toast.LENGTH_SHORT).show();
                                 } else {
-
                                     Intent startIntent=new Intent(sign_in.this,LocateService.class);
                                     stopService(startIntent);
                                     startService(startIntent);
@@ -92,23 +95,24 @@ public class sign_in extends AppCompatActivity {
                 startActivity(intent2);
             }
         });
-        writeAccount();
     }
-    protected void writeAccount(){
+    public void writePd(String phone,String pd){
         SharedPreferences sp1=getSharedPreferences("identification",MODE_PRIVATE);
         SharedPreferences.Editor ed=sp1.edit();
 
-         if(checkBox1.isChecked()){
-             ed.putBoolean("state",true);
-             ed.commit();
-         }
-    }
-    /* 判断是否登录状态 */
-    protected Boolean isLogIn(){
-        Boolean state=false;
-        SharedPreferences sp=getSharedPreferences("identification",MODE_PRIVATE);
-        state=sp.getBoolean("state",false);
-        return state;
+        ed.putString("phone",phone);
+        ed.putString("pd",pd);
+        ed.commit();
     }
 
+    public void load(){
+        String phone;
+        String pd;
+        SharedPreferences sp=getSharedPreferences("identification",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("identification",MODE_PRIVATE);
+        phone=sp.getString("phone","");
+        pd=sharedPreferences.getString("pd","");
+        editText1.setText(phone);
+        editText2.setText(pd);
+    }
 }

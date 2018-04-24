@@ -70,5 +70,4 @@
             android:text="@string/lost"/>
 
     </LinearLayout>
-
 </LinearLayout>

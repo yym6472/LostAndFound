@@ -29,15 +29,15 @@ public class main extends AppCompatActivity {
         setContentView(R.layout.main);
         initMap(savedInstanceState);//加载地图
 
+        btn1=(Button)findViewById(R.id.set);
+        btn2=(Button)findViewById(R.id.message);
+        btn3=(Button)findViewById(R.id.lost);
+        btn4=(Button)findViewById(R.id.found);
         buttonEvent();
     }
 
     protected void buttonEvent(){
 
-        btn1=(Button)findViewById(R.id.set);
-        btn2=(Button)findViewById(R.id.message);
-        btn3=(Button)findViewById(R.id.lost);
-        btn4=(Button)findViewById(R.id.found);
 
         //点击设置按钮
         btn1.setOnClickListener(new View.OnClickListener() {
