@@ -1,10 +1,14 @@
 package com.example.cheatgz.lostandfoundsystem;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +16,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
+import com.example.cheatgz.lostandfoundsystem.service.UserLocateService;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
+
+import java.util.ArrayList;
 
 /**
  * Created by CheatGZ on 2018/3/26.
@@ -27,12 +34,35 @@ public class sign_in extends AppCompatActivity {
     private String string2;//输入的密码
     private String string3;//从数据库提出的手机号
     private CheckBox checkBox1;
-    private LocateService startService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_in);
+
+        // 权限检查
+        String[] permissions = new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE
+        };
+        ArrayList<String> permissionsList = new ArrayList<>();
+        for (int i = 0; i < permissions.length; ++i) {
+            if (ContextCompat.checkSelfPermission(sign_in.this, permissions[i])
+                    != PackageManager.PERMISSION_GRANTED) {
+                permissionsList.add(permissions[i]);
+            }
+        }
+        if (permissionsList.size() != 0) {
+            String[] permissionsToApply = new String[permissionsList.size()];
+            for (int i = 0; i < permissionsList.size(); ++i) {
+                permissionsToApply[i] = permissionsList.get(i);
+            }
+            ActivityCompat.requestPermissions(sign_in.this, permissionsToApply, 0);
+        }
+
         editText1=(EditText)findViewById(R.id.phone);
         editText2=(EditText)findViewById(R.id.pd);
         checkBox1=(CheckBox)findViewById(R.id.rememberState);
@@ -58,10 +88,8 @@ public class sign_in extends AppCompatActivity {
                                 if (msg.arg1 == -1) {
                                     android.widget.Toast.makeText(sign_in.this, "账号或密码错误", android.widget.Toast.LENGTH_SHORT).show();
                                 } else {
-
-                                    Intent startIntent=new Intent(sign_in.this,LocateService.class);
-                                    stopService(startIntent);
-                                    startService(startIntent);
+                                    Intent intent = new Intent(sign_in.this, UserLocateService.class);
+                                    startService(intent);
 
                                     ThisApplication application = (ThisApplication) getApplication();
                                     application.setUserId(msg.arg1);
@@ -109,6 +137,18 @@ public class sign_in extends AppCompatActivity {
         SharedPreferences sp=getSharedPreferences("identification",MODE_PRIVATE);
         state=sp.getBoolean("state",false);
         return state;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults != null) {
+            for (int result : grantResults) {
+                if (result == PackageManager.PERMISSION_DENIED) {
+                    finish();
+                }
+            }
+        }
     }
 
 }

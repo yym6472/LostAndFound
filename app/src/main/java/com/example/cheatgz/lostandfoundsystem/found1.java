@@ -1,7 +1,5 @@
 package com.example.cheatgz.lostandfoundsystem;
 
-import android.app.Application;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,17 +13,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.cheatgz.lostandfoundsystem.db.LocationInfoHelper;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
 import com.yymstaygold.lostandfound.client.entity.Found;
 import com.yymstaygold.lostandfound.client.entity.Item;
 
-import java.io.IOException;
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -85,18 +79,19 @@ public class found1 extends AppCompatActivity {
                             found.setFoundName(string1);
                             ThisApplication application = (ThisApplication) getApplication();
                             found.setUserId(application.getUserId());
-                            Database database=new Database(found1.this, "UserLocation.db", null, 1);
-                            SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
-                            Cursor cursor = sqLiteDatabase.query("user_location",
-                                    new String[]{"XLocate, YLocate"},
+                            LocationInfoHelper helper = LocationInfoHelper.getInstance(found1.this);
+                            SQLiteDatabase sqLiteDatabase = helper.getWritableDatabase();
+                            Cursor cursor = sqLiteDatabase.query(
+                                    LocationInfoHelper.LocationInfoTable.TABLE_NAME,
+                                    new String[]{"positionX, positionY"},
                                     "userId = ?",
                                     new String[]{"" + application.getUserId()},
                                     null,
                                     null,
-                                    "Time desc");
+                                    "time desc");
                             if (cursor.moveToNext()) {
-                                found.setFoundPositionX(cursor.getDouble(cursor.getColumnIndex("XLocate")));
-                                found.setFoundPositionY(cursor.getDouble(cursor.getColumnIndex("YLocate")));
+                                found.setFoundPositionX(cursor.getDouble(cursor.getColumnIndex("positionX")));
+                                found.setFoundPositionY(cursor.getDouble(cursor.getColumnIndex("positionY")));
                             }
                             cursor.close();
                             found.setFoundTime(new Date(System.currentTimeMillis()));

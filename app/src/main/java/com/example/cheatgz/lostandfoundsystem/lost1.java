@@ -1,7 +1,5 @@
 package com.example.cheatgz.lostandfoundsystem;
 
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,16 +13,14 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
+import com.example.cheatgz.lostandfoundsystem.db.LocationInfoHelper;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
 import com.yymstaygold.lostandfound.client.entity.Item;
 import com.yymstaygold.lostandfound.client.entity.Lost;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -87,20 +83,19 @@ public class lost1 extends AppCompatActivity {
                             ArrayList<Double> lostPositionInfoPositionX = new ArrayList<>();
                             ArrayList<Double> lostPositionInfoPositionY = new ArrayList<>();
 
-                            Database database = new Database(lost1.this , "UserLocation.db", null, 1);
-                            SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
+                            LocationInfoHelper helper = LocationInfoHelper.getInstance(lost1.this);
+                            SQLiteDatabase sqLiteDatabase = helper.getWritableDatabase();
                             // TODO: to change
                             Cursor cursor = sqLiteDatabase.query(
-                                    "user_location",
-                                    new String[]{"Time", "XLocate", "YLocate"},
-                                    "userId = ? and Time < ? and Time > ?",
-                                    new String[]{application.getUserId()+"", "?", "?"}, null, null, "Time asc");
+                                    LocationInfoHelper.LocationInfoTable.TABLE_NAME,
+                                    new String[]{"time", "positionX", "positionY"},
+                                    "userId = ? and time > ? and time < ?",
+                                    new String[]{application.getUserId() + "", (new Date().getTime() - 3600000) + "",new Date().getTime() + ""}, null, null, "time asc");
 
                             while (cursor.moveToNext()) {
-                                // TODO: to change
-                                lostPositionInfoTime.add(new Date(cursor.getString(cursor.getColumnIndex("Time"))));
-                                lostPositionInfoPositionX.add(cursor.getDouble(cursor.getColumnIndex("XLocate")));
-                                lostPositionInfoPositionY.add(cursor.getDouble(cursor.getColumnIndex("YLocate")));
+                                lostPositionInfoTime.add(new Date(cursor.getLong(cursor.getColumnIndex("time"))));
+                                lostPositionInfoPositionX.add(cursor.getDouble(cursor.getColumnIndex("positionX")));
+                                lostPositionInfoPositionY.add(cursor.getDouble(cursor.getColumnIndex("positionY")));
                             }
                             lost.setLostPositionInfoTime(lostPositionInfoTime);
                             lost.setLostPositionInfoPositionX(lostPositionInfoPositionX);
