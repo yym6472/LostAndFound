@@ -66,13 +66,15 @@ public class found1 extends AppCompatActivity {
                             item.setImagePath("");
                             item.setType(itemType);
                             Map<String, String> properties = new HashMap<>();
-                            String[] propertyKeyValuePairs = string2.split(";");
-                            for (String propertyKeyValuePair : propertyKeyValuePairs) {
-                                String[] keyValue = propertyKeyValuePair.trim().split(":");
-                                assert keyValue.length == 2;
-                                String key = keyValue[0];
-                                String value = keyValue[1];
-                                properties.put(key, value);
+                            if (string2 != null && !string2.trim().equals("")) {
+                                String[] propertyKeyValuePairs = string2.split(";");
+                                for (String propertyKeyValuePair : propertyKeyValuePairs) {
+                                    String[] keyValue = propertyKeyValuePair.trim().split(":");
+                                    assert keyValue.length == 2;
+                                    String key = keyValue[0].trim();
+                                    String value = keyValue[1].trim();
+                                    properties.put(key, value);
+                                }
                             }
                             item.setProperties(properties);
                             found.setItem(item);

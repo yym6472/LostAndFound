@@ -27,12 +27,11 @@ public class UserLocateService extends Service {
             }
         }).start();
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        int five = 5000; // 这是5s
-        long triggerAtTime = SystemClock.elapsedRealtime() + five;
+        int d = 300000; // 5分钟触发一次
+        long triggerAtTime = SystemClock.elapsedRealtime() + d;
         Intent i = new Intent(this, AlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         return super.onStartCommand(intent, flags, startId);
-
     }
 }

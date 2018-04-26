@@ -27,7 +27,8 @@ public class LocateHelper implements AMapLocationListener {
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation == null) return;
 
-        if (aMapLocation.getErrorCode() == 0) {if (aMapLocation == null) return;
+        if (aMapLocation.getErrorCode() == 0) {
+            if (aMapLocation == null) return;
 
             if (aMapLocation.getErrorCode() == 0) {
                 int userId = application.getUserId();
