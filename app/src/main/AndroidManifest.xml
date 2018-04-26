@@ -42,7 +42,8 @@
             android:name="com.amap.api.v2.apikey"
             android:value="cfedd274997467f9fb8f8aae50d3a53a" />
 
-        <activity android:name=".sign_in">
+        <activity android:name=".splashScreen"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,10 +59,11 @@
         <activity android:name=".lost1" />
         <activity android:name=".main" />
         <activity android:name=".match_property" />
-        <activity
-            android:name=".message"
-            android:theme="@style/MyDialogStyle" />
+        <activity android:name=".message"
+            android:theme="@style/MyDialogStyle">
+        </activity>
         <activity android:name=".property" />
+        <activity android:name=".sign_in"/>
         <activity android:name=".sign_up" />
         <activity android:name=".wallet" />
 

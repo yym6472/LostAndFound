@@ -97,7 +97,7 @@ public class home_page extends AppCompatActivity {
     protected void setImageView(){
 
         imageView1=(ImageView)findViewById(R.id.image);
-        imageView1.setImageResource(R.mipmap.nick);
+        imageView1.setImageResource(R.mipmap.icon);
     }
     protected void showDialog(View view){
         //Toast.makeText(this,"clickme",Toast.LENGTH_LONG).show();
@@ -111,7 +111,7 @@ public class home_page extends AppCompatActivity {
     private DialogInterface.OnClickListener click1=new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
-            writeState();
+            writeNull();
             Intent intent=new Intent(home_page.this,sign_in.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -124,10 +124,12 @@ public class home_page extends AppCompatActivity {
             dialogInterface.cancel();
         }
     };
-    public void writeState(){
-            SharedPreferences sp1=getSharedPreferences("identification",MODE_PRIVATE);
-            SharedPreferences.Editor ed=sp1.edit();
-            ed.putBoolean("state",false);
-            ed.apply();
-        }
+    public void writeNull(){
+        SharedPreferences sp1=getSharedPreferences("identification",MODE_PRIVATE);
+        SharedPreferences.Editor ed=sp1.edit();
+
+        ed.putString("phone",null);
+        ed.putString("pd",null);
+        ed.commit();
+    }
 }

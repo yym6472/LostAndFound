@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
@@ -29,13 +31,18 @@ import java.util.Map;
 
 public class lost1 extends AppCompatActivity {
     private Button btn1;
+    private Button btn2;//close
     private ImageView imageView1;
     private EditText editText1;//备注名
     private EditText editText2;//物品详细描述
     private String string1;//备注名
     private String string2;//物品详细描述
+    private String[] string3={"香蕉","橘子","苹果"};//我的失物集
     private int itemType;//物品分类
     private Spinner spinner1;
+    private LinearLayout linearLayout1;
+    private LinearLayout linearLayout2;//匹配结果弹框
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +51,12 @@ public class lost1 extends AppCompatActivity {
         editText1=(EditText)findViewById(R.id.nickname);
         editText2=(EditText)findViewById(R.id.describe);
         btn1=(Button)findViewById(R.id.refer);
+        btn2=(Button)findViewById(R.id.close);
         spinner1=(Spinner)findViewById(R.id.kind_spinner_btn) ;
-        //下一页按钮
+        linearLayout1=(LinearLayout)findViewById(R.id.main);
+        linearLayout2=(LinearLayout)findViewById((R.id.dialog));
+        linearLayout2.setVisibility(View.GONE);
+        //提交按钮
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,12 +120,21 @@ public class lost1 extends AppCompatActivity {
                         }
                     }).start();
                     android.widget.Toast.makeText(lost1.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();
-                    finish();
+                    setListView();
+                    linearLayout1.setBackgroundColor(0xFF969696);
+                    linearLayout1.setAlpha((float) 0.8);
+                    linearLayout2.setVisibility(View.VISIBLE);
                 }
             }
         });
         imageView1.setImageResource(R.mipmap.icon);
 
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         final String[] propertykind=getResources().getStringArray(R.array.kinds);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, propertykind);
@@ -130,6 +150,19 @@ public class lost1 extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });;
+        });
+    }
+    protected void setListView(){
+        ArrayAdapter<String> adapter1=new ArrayAdapter<String>(lost1.this,R.layout.text_view,string3);
+        listView=(ListView)findViewById(R.id.matchResult);
+        listView.setAdapter(adapter1);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent1=new Intent(lost1.this,match_property.class);
+                startActivity(intent1);
+            }
+        });
     }
 }

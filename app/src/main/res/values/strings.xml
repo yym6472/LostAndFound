@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">失物招领系统</string>
+    <string name="app_name">失物招领</string>
     <string name="authentication">实名认证</string>
     <string name="backSignIn">已有账号，返回登录</string>
     <string name="balance">余额</string>
@@ -19,6 +19,7 @@
     <string name="lost">丢失物品</string>
     <string name="logOut">退出登录</string>
     <string name="matchInfo">匹配信息</string>
+    <string name="matchresult">匹配结果</string>
     <string name="message">消息</string>
     <string name="myLost">我的失物</string>
     <string name="myFound">我的拾物</string>
@@ -30,7 +31,7 @@
     <string name="phone">手机号</string>
     <string name="propertyInfo">请详细描述物品属性，例如钱包颜色、大小、材质</string>
     <string name="refer">提交</string>
-    <string name="rememberState">记住登录状态</string>
+    <string name="rememberState">记住密码</string>
     <string name="repeatPd">重复密码</string>
     <string name="property">我的物品</string>
     <string name="signIn">登录</string>
