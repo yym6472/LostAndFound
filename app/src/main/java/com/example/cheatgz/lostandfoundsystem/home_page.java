@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.*;
 
+import q.rorbin.badgeview.Badge;
+import q.rorbin.badgeview.QBadgeView;
+
 /**
  * Created by CheatGZ on 2018/3/26.
  */
@@ -128,8 +131,7 @@ public class home_page extends AppCompatActivity {
         SharedPreferences sp1=getSharedPreferences("identification",MODE_PRIVATE);
         SharedPreferences.Editor ed=sp1.edit();
 
-        ed.putString("phone",null);
-        ed.putString("pd",null);
+        ed.putBoolean("state",false);
         ed.commit();
     }
 }

@@ -39,8 +39,10 @@ public class lost1 extends AppCompatActivity {
     private ImageView imageView1;
     private EditText editText1;//备注名
     private EditText editText2;//物品详细描述
+    private EditText editText3;//悬赏金额
     private String string1;//备注名
     private String string2;//物品详细描述
+    private String reward;//悬赏金额
     private String[] string3={"香蕉","橘子","苹果"};//我的失物集
     private int itemType;//物品分类
     private Spinner spinner1;
@@ -54,6 +56,7 @@ public class lost1 extends AppCompatActivity {
         imageView1=(ImageView)findViewById(R.id.image);
         editText1=(EditText)findViewById(R.id.nickname);
         editText2=(EditText)findViewById(R.id.describe);
+        editText3=(EditText)findViewById(R.id.reward);
         btn1=(Button)findViewById(R.id.refer);
         btn2=(Button)findViewById(R.id.close);
         spinner1=(Spinner)findViewById(R.id.kind_spinner_btn) ;
@@ -66,11 +69,14 @@ public class lost1 extends AppCompatActivity {
             public void onClick(View view) {
                 string1=editText1.getText().toString();
                 string2=editText2.getText().toString();
+                reward=editText3.getText().toString();
                 if(string1==null||string1.length()<=0){
                     android.widget.Toast.makeText(lost1.this, "请添加备注名", android.widget.Toast.LENGTH_SHORT).show();
                 }else if(string2==null||string2.length()<=0){
                     android.widget.Toast.makeText(lost1.this, "请添加描述", android.widget.Toast.LENGTH_SHORT).show();
-                }else {
+                }else if(reward==null||reward.length()<=0){
+                    android.widget.Toast.makeText(lost1.this, "悬赏金额数值不能为空", android.widget.Toast.LENGTH_SHORT).show();
+                }else{
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -124,7 +130,7 @@ public class lost1 extends AppCompatActivity {
                     android.widget.Toast.makeText(lost1.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();
                     setListView();
                     linearLayout1.setBackgroundColor(0xFF969696);
-                    linearLayout1.setAlpha((float) 0.8);
+                    linearLayout1.setAlpha((float) 0.1);
                     linearLayout2.setVisibility(View.VISIBLE);
                 }
             }

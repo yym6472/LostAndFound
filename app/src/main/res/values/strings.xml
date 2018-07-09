@@ -6,15 +6,18 @@
     <string name="changeInfo">修改信息</string>
     <string name="company">工作单位</string>
     <string name="charge">立即充值</string>
+    <string name="code">验证码</string>
     <string name="contractInfo">拾取人联系方式:</string>
     <string name="describe">物品描述</string>
     <string name="email">邮箱</string>
     <string name="earn">收入</string>
-    <string name="found">捡到物品</string>
+    <string name="found">捡到物品</string>ma
+    <string name="getCode">获取验证</string>
     <string name="homeAddress">家庭地址</string>
     <string name="homePage">主页</string>
     <string name="image">上传图片</string>
     <string name="identification">身份证</string>
+    <string name="inputMoney">输入金额</string>
     <string name="kind">分类</string>
     <string name="lost">丢失物品</string>
     <string name="logOut">退出登录</string>
@@ -29,13 +32,15 @@
     <string name="pd">密码</string>
     <string name="personInfo">个人信息</string>
     <string name="phone">手机号</string>
+    <string name="phoneNumber">请输入手机号</string>
+    <string name="property">我的物品</string>
     <string name="propertyInfo">请详细描述物品属性，例如钱包颜色、大小、材质</string>
     <string name="refer">提交</string>
     <string name="rememberState">记住密码</string>
     <string name="repeatPd">重复密码</string>
-    <string name="property">我的物品</string>
+    <string name="reward">悬赏金额</string>
     <string name="signIn">登录</string>
-    <string name="signUp">注册</string>
+    <string name="signUp">注册个人信息</string>
     <string name="unFill">未填写!!!</string>
     <string name="wallet">我的钱包</string>
 
