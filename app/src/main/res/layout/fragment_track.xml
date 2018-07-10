@@ -1,0 +1,49 @@
+<LinearLayout android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/map_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.amap.api.maps2d.MapView
+            android:id="@+id/track_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.victor.library.wheelview.WheelView
+            android:id="@+id/choose_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:focusable="true"
+            android:layout_gravity="center"
+            app:dragOut="true"
+            app:textColor="@color/black"
+            app:textSize="12sp" />
+
+        <com.victor.library.wheelview.WheelView
+            android:id="@+id/choose_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:layout_gravity="center"
+            app:dragOut="true"
+            app:textColor="@color/black"
+            app:textSize="12sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

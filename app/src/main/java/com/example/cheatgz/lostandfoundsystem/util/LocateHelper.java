@@ -11,16 +11,24 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
 import com.example.cheatgz.lostandfoundsystem.db.LocationInfoHelper;
+import com.example.cheatgz.lostandfoundsystem.service.TrackRecordReceiver;
 
 import java.util.Date;
 
 public class LocateHelper implements AMapLocationListener {
+
+    private static final String TAG = "LocateHelper";
+
     private Context context;
     private ThisApplication application;
+    private TrackRecordReceiver.OnTrackedListener listener;
+    private Date locateTime;
 
-    public LocateHelper(Context context, ThisApplication application) {
+    public LocateHelper(Context context, ThisApplication application, TrackRecordReceiver.OnTrackedListener listener, Date locateTime) {
         this.context = context;
         this.application = application;
+        this.listener = listener;
+        this.locateTime = locateTime;
     }
 
     @Override
@@ -37,14 +45,18 @@ public class LocateHelper implements AMapLocationListener {
                     SQLiteDatabase db = helper.getWritableDatabase();
                     ContentValues values = new ContentValues();
                     values.put("userId", userId);
-                    values.put("time", aMapLocation.getTime());
+                    values.put("time", locateTime.getTime());
                     values.put("positionX", aMapLocation.getLongitude());
                     values.put("positionY", aMapLocation.getLatitude());
                     db.insert(LocationInfoHelper.LocationInfoTable.TABLE_NAME,
                             null, values);
-                    System.out.println("TIME: " + new Date(aMapLocation.getTime()));
-                    System.out.println("POSITION_X: " + aMapLocation.getLongitude());
-                    System.out.println("POSITION_Y: " + aMapLocation.getLatitude());
+                    Log.d(TAG, "onLocationChanged: TIME: " + new Date(locateTime.getTime()));
+                    Log.d(TAG, "onLocationChanged: POSITION_X: " + aMapLocation.getLongitude());
+                    Log.d(TAG, "onLocationChanged: POSITION_Y: " + aMapLocation.getLatitude());
+
+                    if (listener != null) {
+                        listener.OnTracked(aMapLocation.getLatitude(), aMapLocation.getLongitude(), locateTime);
+                    }
                 }
             } else {
                 Log.e("AmapError", "location Error, ErrCode:" +

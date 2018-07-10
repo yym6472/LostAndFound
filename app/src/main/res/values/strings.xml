@@ -51,4 +51,7 @@
         <item>钥匙</item>
         <item>其他</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

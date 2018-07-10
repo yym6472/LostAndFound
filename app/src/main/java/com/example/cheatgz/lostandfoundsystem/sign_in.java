@@ -155,5 +155,23 @@ public class sign_in extends AppCompatActivity {
             }
         }
     }
+    public void writePd(String phone,String pd){
+        SharedPreferences sp1=getSharedPreferences("identification",MODE_PRIVATE);
+        SharedPreferences.Editor ed=sp1.edit();
 
+        ed.putString("phone",phone);
+        ed.putString("pd",pd);
+        ed.commit();
+    }
+
+    public void load(){
+        String phone;
+        String pd;
+        SharedPreferences sp=getSharedPreferences("identification",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("identification",MODE_PRIVATE);
+        phone=sp.getString("phone","");
+        pd=sharedPreferences.getString("pd","");
+        editText1.setText(phone);
+        editText2.setText(pd);
+    }
 }

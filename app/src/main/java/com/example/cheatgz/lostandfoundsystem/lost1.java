@@ -1,8 +1,10 @@
 package com.example.cheatgz.lostandfoundsystem;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +19,7 @@ import android.widget.Spinner;
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
 import com.example.cheatgz.lostandfoundsystem.db.LocationInfoHelper;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
+import com.yymstaygold.lostandfound.client.entity.Found;
 import com.yymstaygold.lostandfound.client.entity.Item;
 import com.yymstaygold.lostandfound.client.entity.Lost;
 
@@ -37,16 +40,19 @@ public class lost1 extends AppCompatActivity {
     private EditText editText2;//物品详细描述
     private String string1;//备注名
     private String string2;//物品详细描述
-    private String[] string3={"香蕉","橘子","苹果"};//我的失物集
+    private String[] string3={};//我的失物集
+    private Found[] founds;
     private int itemType;//物品分类
     private Spinner spinner1;
     private LinearLayout linearLayout1;
     private LinearLayout linearLayout2;//匹配结果弹框
     private ListView listView;
+    private Handler handler = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lost1);
+        handler = new Handler();
         imageView1=(ImageView)findViewById(R.id.image);
         editText1=(EditText)findViewById(R.id.nickname);
         editText2=(EditText)findViewById(R.id.describe);
@@ -115,14 +121,21 @@ public class lost1 extends AppCompatActivity {
                             lost.setLostPositionInfoPositionY(lostPositionInfoPositionY);
 
                             ArrayList<Integer> matchResults = ClientDelegation.uploadLost(lost);
-                            System.out.println(matchResults);
-                            // TODO: handle matched founds.
+                            System.out.println("MATCH_RESULT" + matchResults);
+                            if (matchResults != null && matchResults.size() > 0) {
+                                string3 = new String[matchResults.size()];
+                                founds = new Found[matchResults.size()];
+                                for (int i = 0; i < matchResults.size(); ++i) {
+                                    founds[i] = ClientDelegation.downloadFoundInfo(matchResults.get(i));
+                                    string3[i] = founds[i].getFoundName();
+                                }
+                            }
+                            handler.post(runnableUi);
                         }
                     }).start();
                     android.widget.Toast.makeText(lost1.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();
-                    setListView();
                     linearLayout1.setBackgroundColor(0xFF969696);
-                    linearLayout1.setAlpha((float) 0.8);
+                    linearLayout1.setAlpha((float) 0.1);
                     linearLayout2.setVisibility(View.VISIBLE);
                 }
             }
@@ -161,8 +174,25 @@ public class lost1 extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent intent1=new Intent(lost1.this,match_property.class);
+                intent1.putExtra("foundId", founds[position].getFoundId());
+                intent1.putExtra("phoneNumber", founds[position].getPhoneNumber());
+                String description = "";
+                Map<String, String> properties = founds[position].getItem().getProperties();
+                for (String key : properties.keySet()) {
+                    description = description + key + ": " + properties.get(key) + ";";
+                }
+                description = description.substring(0, description.length() - 1);
+                intent1.putExtra("description", description);
                 startActivity(intent1);
             }
         });
     }
+
+    Runnable runnableUi=new Runnable(){
+        @Override
+        public void run() {
+            setListView();
+        }
+
+    };
 }
