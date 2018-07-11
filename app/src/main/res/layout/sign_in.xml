@@ -1,65 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:padding="40dp"
+        android:layout_height="match_parent"
         android:text="@string/signIn"
-        android:textSize="50sp" />
-    <EditText
-        android:id="@+id/phone"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/edit_text"
-        android:hint="@string/phone"
-        android:inputType="textPhonetic"
-        android:maxLines="1"
-        android:textSize="13sp" />
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="40dp"/>
 
     <EditText
-        android:id="@+id/pd"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/edit_text"
-        android:hint="@string/pd"
-        android:inputType="textPassword"
-        android:maxLines="1"
-        android:textSize="13sp" />
-    <CheckBox
-        android:id="@+id/rememberState"
-        android:layout_width="300dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="@string/rememberState"
-        />
-    <Button
-        android:id="@+id/sign_in"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/btn_flattening"
-        android:text="@string/signIn" />
-    <Button
-        android:id="@+id/sign_up"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center_horizontal"
-        android:textSize="12sp"
-        android:layout_marginTop="90dp"
-        android:background="@drawable/btn_clarity"
-        android:text="@string/signUp" />
+        android:id="@+id/login_input_phone_et"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="107dp"
+        android:ems="10"
+        android:hint="@string/phoneNumber"
+        android:inputType="phone" />
 
-</LinearLayout>
+    <requestFocus />
+
+    <EditText
+        android:id="@+id/login_input_code_et"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login_input_phone_et"
+        android:layout_below="@+id/login_input_phone_et"
+        android:layout_marginTop="44dp"
+        android:hint="@string/code"
+        android:inputType="textPassword" >
+    </EditText>
+
+    <Button
+        android:id="@+id/login_request_code_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/login_input_phone_et"
+        android:layout_alignTop="@+id/login_input_code_et"
+        android:text="@string/getCode"
+        android:background="@drawable/btn_flattening"/>
+
+    <Button
+        android:id="@+id/login_commit_btn"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login_input_code_et"
+        android:layout_below="@+id/login_input_code_et"
+        android:layout_marginTop="44dp"
+        android:text="@string/signIn"
+        android:background="@drawable/btn_flattening"/>
+
+</RelativeLayout>

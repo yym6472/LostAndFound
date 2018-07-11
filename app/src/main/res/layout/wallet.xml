@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -66,3 +71,52 @@
         android:text="@string/pay" />
     </android.support.v7.widget.CardView>
 </LinearLayout>
+
+<LinearLayout
+android:id="@+id/dialog"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center"
+android:orientation="vertical">
+<android.support.v7.widget.CardView
+    android:layout_width="300dp"
+    android:layout_height="100dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="20dp"
+    app:cardCornerRadius="10dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="10dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textSize="20sp"
+        android:text="@string/charge"/>
+</android.support.v7.widget.CardView>
+<android.support.v7.widget.CardView
+    android:layout_width="300dp"
+    android:layout_height="100dp"
+    app:cardCornerRadius="10dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="10dp">
+
+    <EditText
+        android:id="@+id/money"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:textSize="13sp"
+        android:hint="@string/inputMoney"
+        android:inputType="number" />
+</android.support.v7.widget.CardView>
+<Button
+    android:id="@+id/charge2"
+    android:layout_width="300dp"
+    android:layout_height="40dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/btn_close"
+    android:text="@string/charge"/>
+</LinearLayout>
+</FrameLayout>

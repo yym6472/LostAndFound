@@ -1,6 +1,8 @@
 package com.example.cheatgz.lostandfoundsystem;
 
 import android.content.Intent;
+import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,6 +13,9 @@ import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.UiSettings;
 import com.amap.api.maps2d.model.MyLocationStyle;
+
+import q.rorbin.badgeview.Badge;
+import q.rorbin.badgeview.QBadgeView;
 
 /**
  * Created by CheatGZ on 2018/3/26.
@@ -23,6 +28,7 @@ public class main extends AppCompatActivity {
     private Button btn3;
     private Button btn4;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -33,10 +39,15 @@ public class main extends AppCompatActivity {
         btn2=(Button)findViewById(R.id.message);
         btn3=(Button)findViewById(R.id.lost);
         btn4=(Button)findViewById(R.id.found);
-        buttonEvent();
+        //TODO:链接数据库，判断有新的匹配信息时，添加new小红点
+        Badge badge=new QBadgeView(this);
+            badge.bindTarget(btn2);
+            badge.setBadgeText("new");
+            badge.setBadgeTextSize(6,true);
+        buttonEvent(badge);
     }
 
-    protected void buttonEvent(){
+    protected void buttonEvent(final Badge badge){
 
 
         //点击设置按钮
@@ -54,6 +65,7 @@ public class main extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent2=new Intent(main.this,message.class);
                 startActivity(intent2);
+                badge.hide(true);
             }
         });
 

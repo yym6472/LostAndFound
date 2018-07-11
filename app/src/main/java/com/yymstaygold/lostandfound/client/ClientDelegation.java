@@ -6,6 +6,7 @@ import android.util.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yymstaygold.lostandfound.client.entity.Found;
 import com.yymstaygold.lostandfound.client.entity.Lost;
+import com.yymstaygold.lostandfound.client.entity.User;
 import com.yymstaygold.lostandfound.client.util.match.MatchInfo;
 
 import java.io.DataInputStream;
@@ -81,12 +82,10 @@ public class ClientDelegation {
     }
 
     /**
-     * Register phone number and password to server.
-     * @param phoneNumber the input phone number
-     * @param password the input plain password
+     * Register user info to server.
      * @return true if register succeed, false otherwise.
      */
-    public static boolean register(String phoneNumber, String password) {
+    public static boolean register(User user) {
         String urlString = "http://23.106.132.78/LostAndFoundServer/register";
         try {
             URL url = new URL(urlString);
@@ -97,8 +96,9 @@ public class ClientDelegation {
             conn.setRequestMethod("POST");
             conn.setReadTimeout(6000);
             DataOutputStream out = new DataOutputStream(conn.getOutputStream());
-            out.writeUTF(phoneNumber);
-            out.writeUTF(getMD5(password));
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+            mapper.writeValue(out, user);
             out.flush();
             out.close();
 
