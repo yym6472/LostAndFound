@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape>
+            <solid android:color="@color/btn1" />
+            <corners android:topLeftRadius="10dp"
+                android:topRightRadius="10dp"
+                android:bottomRightRadius="0dp"
+                android:bottomLeftRadius="0dp" />
+            <stroke
+                android:width="10dp"
+                android:color="@color/backgroud" />
+        </shape>
+    </item>
+    <item android:bottom="1dp">向下平移1dp
+        <shape>
+            <corners android:topLeftRadius="10dp"
+                android:topRightRadius="10dp"
+                android:bottomRightRadius="0dp"
+                android:bottomLeftRadius="0dp" />
+            <solid android:color="@color/btn1" />
+
+        </shape>
+    </item>
+</layer-list>

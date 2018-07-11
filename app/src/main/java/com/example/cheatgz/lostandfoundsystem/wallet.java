@@ -14,7 +14,7 @@ import android.widget.Toast;
  * Created by CheatGZ on 2018/3/26.
  */
 
-public class wallet extends AppCompatActivity {
+public class wallet extends BaseActivity {
     private Button btn1;
     private Button btn2;
     private TextView textView1;//余额

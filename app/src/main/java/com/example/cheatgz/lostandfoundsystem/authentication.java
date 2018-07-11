@@ -11,7 +11,7 @@ import android.widget.EditText;
  * Created by CheatGZ on 2018/3/26.
  */
 
-public class authentication extends AppCompatActivity{
+public class authentication extends BaseActivity{
     private Button btn1;
     private EditText editText1;
     private EditText editText2;

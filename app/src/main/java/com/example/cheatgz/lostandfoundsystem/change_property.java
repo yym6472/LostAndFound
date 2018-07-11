@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class change_property extends AppCompatActivity {
+public class change_property extends BaseActivity {
     private ImageView imageView1;
     private EditText editText1;
     private Button btn1;

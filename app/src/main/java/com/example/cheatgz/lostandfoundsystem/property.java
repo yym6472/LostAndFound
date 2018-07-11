@@ -15,7 +15,7 @@ import android.widget.ListView;
  * Created by CheatGZ on 2018/3/26.
  */
 
-public class property extends AppCompatActivity {
+public class property extends BaseActivity {
     private ListView listView1;
     private ListView listView2;
     private String[] string1={"香蕉","橘子","苹果"};//我的失物集

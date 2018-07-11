@@ -7,11 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-/**
- * Created by CheatGZ on 2018/3/26.
- */
-
-public class change_info extends BaseActivity {
+public class personal_info extends BaseActivity {
     private Button btn1;
     private EditText editText1;
     private EditText editText2;
@@ -43,7 +39,13 @@ public class change_info extends BaseActivity {
                 string3=editText3.getText().toString();
                 string4=editText4.getText().toString();
                 string5=editText5.getText().toString();
-                android.widget.Toast.makeText(change_info.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();
+                while("".equals(string1)||string1==null){
+                    string1=editText1.getText().toString();
+                    android.widget.Toast.makeText(personal_info.this, "姓名不能为空", android.widget.Toast.LENGTH_SHORT).show();
+                }
+                android.widget.Toast.makeText(personal_info.this, "注册成功", android.widget.Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(personal_info.this,main.class);
+                startActivity(intent);
                 finish();
             }
         });

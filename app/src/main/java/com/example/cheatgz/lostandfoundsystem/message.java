@@ -29,7 +29,7 @@ import java.util.HashMap;
  * Created by CheatGZ on 2018/3/26.
  */
 
-public class message extends AppCompatActivity {
+public class message extends BaseActivity {
     private ExpandableListView listView1;
 
     ArrayList<String> lostProperty;//备注名

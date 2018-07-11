@@ -31,7 +31,7 @@ import java.io.File;
  * Created by CheatGZ on 2018/3/26.
  */
 
-public class home_page extends AppCompatActivity implements View.OnClickListener{
+public class home_page extends BaseActivity implements View.OnClickListener{
     private Button btn1;//个人信息
     private Button btn2;//我的钱包
     private Button btn3;//我的物品

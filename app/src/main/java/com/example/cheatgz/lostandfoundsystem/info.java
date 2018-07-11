@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class info extends Activity {
+public class info extends BaseActivity {
     private Button btn1;
     private TextView textView1;
     private TextView textView2;

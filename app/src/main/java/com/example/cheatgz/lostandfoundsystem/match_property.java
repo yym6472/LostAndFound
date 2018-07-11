@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class match_property extends AppCompatActivity {
+public class match_property extends BaseActivity {
     private ImageView imageView1;
     private TextView textView1;
     private TextView textView2;

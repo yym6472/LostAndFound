@@ -21,7 +21,7 @@ import q.rorbin.badgeview.QBadgeView;
  * Created by CheatGZ on 2018/3/26.
  */
 
-public class main extends AppCompatActivity {
+public class main extends BaseActivity {
     private MapView mMapView;
     private Button btn1;
     private Button btn2;

@@ -52,7 +52,7 @@ import java.util.Map;
  * Created by CheatGZ on 2018/3/26.
  */
 
-public class found1 extends AppCompatActivity implements View.OnClickListener{
+public class found1 extends BaseActivity implements View.OnClickListener{
     private Button btn1;
     private ImageView imageView1;
     private EditText editText1;
