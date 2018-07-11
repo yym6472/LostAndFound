@@ -84,10 +84,21 @@ public class sign_in extends BaseActivity implements OnClickListener {
             ActivityCompat.requestPermissions(sign_in.this, permissionsToApply, 0);
         }
         if(isLogIn()==true){
-            Intent intent = new Intent(sign_in.this,
+
+            Intent intent = new Intent(sign_in.this, UserLocateService.class);
+            startService(intent);
+
+            // TODO: get userId here
+                        ThisApplication application = (ThisApplication) getApplication();
+                        application.setUserId(24);
+
+            Toast.makeText(getApplicationContext(), "登录成功",
+                    Toast.LENGTH_SHORT).show();
+            Intent intent1 = new Intent(sign_in.this,
                     main.class);
-            startActivity(intent);
+            startActivity(intent1);
             finish();
+
         }
         init();
     }
@@ -183,8 +194,9 @@ public class sign_in extends BaseActivity implements OnClickListener {
                         Intent intent = new Intent(sign_in.this, UserLocateService.class);
                         startService(intent);
 
+                        // TODO: get userId here
                         ThisApplication application = (ThisApplication) getApplication();
-                        application.setUserId(msg.arg1);
+                        application.setUserId(24);
 
                         Toast.makeText(getApplicationContext(), "登录成功",
                                 Toast.LENGTH_SHORT).show();

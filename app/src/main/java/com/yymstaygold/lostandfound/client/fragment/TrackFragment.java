@@ -63,7 +63,7 @@ public class TrackFragment extends Fragment {
                 },
                 LocationInfoHelper.LocationInfoTable.COLUMN_NAME_USER_ID + "=?",
 //                new String[] {((ThisApplication)getActivity().getApplication()).getUserId() + ""}, // TODO
-                new String[] {"1"},
+                new String[] {"24"},
                 null, null,
                 LocationInfoHelper.LocationInfoTable.COLUMN_NAME_TIME,
                 null);
