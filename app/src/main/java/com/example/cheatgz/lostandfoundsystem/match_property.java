@@ -16,6 +16,10 @@ public class match_property extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        string1 = getIntent().getStringExtra("description");
+        string3 = getIntent().getStringExtra("phoneNumber");
+
         setContentView(R.layout.match_property);
         textView1=(TextView)findViewById(R.id.describe);
         textView2=(TextView)findViewById(R.id.name);
@@ -25,6 +29,6 @@ public class match_property extends BaseActivity {
         textView1.setText(string1);
         textView2.setText(string2);
         textView3.setText(string3);
-        imageView1.setImageResource(R.mipmap.wallet);
+        imageView1.setImageResource(R.mipmap.icon);
     }
 }

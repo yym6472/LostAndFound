@@ -1,7 +1,5 @@
 package com.example.cheatgz.lostandfoundsystem;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +17,6 @@ import android.widget.TextView;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
-import com.yymstaygold.lostandfound.client.entity.Lost;
 import com.yymstaygold.lostandfound.client.util.match.MatchInfo;
 
 import java.util.ArrayList;

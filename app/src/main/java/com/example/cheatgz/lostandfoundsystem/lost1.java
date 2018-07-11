@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
@@ -35,7 +36,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
+import com.example.cheatgz.lostandfoundsystem.db.LocationInfoHelper;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
+import com.yymstaygold.lostandfound.client.entity.Found;
 import com.yymstaygold.lostandfound.client.entity.Item;
 import com.yymstaygold.lostandfound.client.entity.Lost;
 
@@ -61,13 +64,15 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
     private EditText editText3;//悬赏金额
     private String string1;//备注名
     private String string2;//物品详细描述
+    private String[] string3={};//我的失物集
+    private Found[] founds;
     private String reward;//悬赏金额
-    private String[] string3={"香蕉","橘子","苹果"};//我的失物集
     private int itemType;//物品分类
     private Spinner spinner1;
     private LinearLayout linearLayout1;
     private LinearLayout linearLayout2;//匹配结果弹框
     private ListView listView;
+    private Handler handler = null;
 
     private static final int CROP_PHOTO = 2;
     private static final int REQUEST_CODE_PICK_IMAGE=3;
@@ -81,6 +86,7 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lost1);
+        handler = new Handler();
         imageView1=(ImageView)findViewById(R.id.image);
         editText1=(EditText)findViewById(R.id.nickname);
         editText2=(EditText)findViewById(R.id.describe);
@@ -129,13 +135,15 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
                             item.setImagePath("");
                             item.setCustomTypeName(null);
                             Map<String, String> properties = new HashMap<>();
-                            String[] propertyKeyValuePairs = string2.split(";");
-                            for (String propertyKeyValuePair : propertyKeyValuePairs) {
-                                String[] keyValue = propertyKeyValuePair.trim().split(":");
-                                assert keyValue.length == 2;
-                                String key = keyValue[0];
-                                String value = keyValue[1];
-                                properties.put(key, value);
+                            if (string2 != null && !string2.trim().equals("")) {
+                                String[] propertyKeyValuePairs = string2.split(";");
+                                for (String propertyKeyValuePair : propertyKeyValuePairs) {
+                                    String[] keyValue = propertyKeyValuePair.trim().split(":");
+                                    assert keyValue.length == 2;
+                                    String key = keyValue[0].trim();
+                                    String value = keyValue[1].trim();
+                                    properties.put(key, value);
+                                }
                             }
                             item.setProperties(properties);
                             lost.setItem(item);
@@ -144,31 +152,38 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
                             ArrayList<Double> lostPositionInfoPositionX = new ArrayList<>();
                             ArrayList<Double> lostPositionInfoPositionY = new ArrayList<>();
 
-                            Database database = new Database(lost1.this , "UserLocation.db", null, 1);
-                            SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
+                            LocationInfoHelper helper = LocationInfoHelper.getInstance(lost1.this);
+                            SQLiteDatabase sqLiteDatabase = helper.getWritableDatabase();
                             // TODO: to change
                             Cursor cursor = sqLiteDatabase.query(
-                                    "user_location",
-                                    new String[]{"Time", "XLocate", "YLocate"},
-                                    "userId = ? and Time < ? and Time > ?",
-                                    new String[]{application.getUserId()+"", "?", "?"}, null, null, "Time asc");
+                                    LocationInfoHelper.LocationInfoTable.TABLE_NAME,
+                                    new String[]{"time", "positionX", "positionY"},
+                                    "userId = ? and time > ? and time < ?",
+                                    new String[]{application.getUserId() + "", (new Date().getTime() - 3600000) + "",new Date().getTime() + ""}, null, null, "time asc");
 
                             while (cursor.moveToNext()) {
-                                // TODO: to change
-                                lostPositionInfoTime.add(new Date(cursor.getString(cursor.getColumnIndex("Time"))));
-                                lostPositionInfoPositionX.add(cursor.getDouble(cursor.getColumnIndex("XLocate")));
-                                lostPositionInfoPositionY.add(cursor.getDouble(cursor.getColumnIndex("YLocate")));
+                                lostPositionInfoTime.add(new Date(cursor.getLong(cursor.getColumnIndex("time"))));
+                                lostPositionInfoPositionX.add(cursor.getDouble(cursor.getColumnIndex("positionX")));
+                                lostPositionInfoPositionY.add(cursor.getDouble(cursor.getColumnIndex("positionY")));
                             }
                             lost.setLostPositionInfoTime(lostPositionInfoTime);
                             lost.setLostPositionInfoPositionX(lostPositionInfoPositionX);
                             lost.setLostPositionInfoPositionY(lostPositionInfoPositionY);
 
                             ArrayList<Integer> matchResults = ClientDelegation.uploadLost(lost);
-                            // TODO: handle matched founds.
+                            System.out.println("MATCH_RESULT" + matchResults);
+                            if (matchResults != null && matchResults.size() > 0) {
+                                string3 = new String[matchResults.size()];
+                                founds = new Found[matchResults.size()];
+                                for (int i = 0; i < matchResults.size(); ++i) {
+                                    founds[i] = ClientDelegation.downloadFoundInfo(matchResults.get(i));
+                                    string3[i] = founds[i].getFoundName();
+                                }
+                            }
+                            handler.post(runnableUi);
                         }
                     }).start();
                     android.widget.Toast.makeText(lost1.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();
-                    setListView();
                     linearLayout1.setBackgroundColor(0xFF969696);
                     linearLayout1.setAlpha((float) 0.1);
                     linearLayout2.setVisibility(View.VISIBLE);
@@ -208,10 +223,28 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Intent intent1=new Intent(lost1.this,match_property.class);
+                intent1.putExtra("foundId", founds[position].getFoundId());
+                intent1.putExtra("phoneNumber", founds[position].getPhoneNumber());
+                String description = "";
+                Map<String, String> properties = founds[position].getItem().getProperties();
+                for (String key : properties.keySet()) {
+                    description = description + key + ": " + properties.get(key) + ";";
+                }
+                description = description.substring(0, description.length() - 1);
+                intent1.putExtra("description", description);
                 startActivity(intent1);
             }
         });
     }
+
+    Runnable runnableUi=new Runnable(){
+        @Override
+        public void run() {
+            setListView();
+        }
+
+    };
+}
     private void showPopupWindow() {
         //设置contentView
         View contentView = LayoutInflater.from(lost1.this).inflate(R.layout.popupwindow, null);

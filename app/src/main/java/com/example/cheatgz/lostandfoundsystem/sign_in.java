@@ -1,11 +1,19 @@
 package com.example.cheatgz.lostandfoundsystem;
+
+import android.annotation.SuppressLint;
+import android.Manifest;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -24,8 +32,14 @@ import android.Manifest;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
+import com.example.cheatgz.lostandfoundsystem.service.UserLocateService;
+import com.yymstaygold.lostandfound.client.ClientDelegation;
 import java.util.ArrayList;
 
+/**
+ * Created by CheatGZ on 2018/3/26.
+ */
 import com.mob.MobSDK;
 
 public class sign_in extends BaseActivity implements OnClickListener {
@@ -166,12 +180,18 @@ public class sign_in extends BaseActivity implements OnClickListener {
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     // 短信注册成功后，返回MainActivity,然后提示
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
+                        Intent intent = new Intent(sign_in.this, UserLocateService.class);
+                        startService(intent);
+
+                        ThisApplication application = (ThisApplication) getApplication();
+                        application.setUserId(msg.arg1);
+
                         Toast.makeText(getApplicationContext(), "登录成功",
                                 Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(sign_in.this,
+                        Intent intent1 = new Intent(sign_in.this,
                                 main.class);
                         writeAccount();
-                        startActivity(intent);
+                        startActivity(intent1);
                         finish();
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         Toast.makeText(getApplicationContext(), "正在获取验证码",
