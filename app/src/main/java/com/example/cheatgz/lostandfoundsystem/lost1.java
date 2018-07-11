@@ -244,7 +244,7 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
         }
 
     };
-}
+
     private void showPopupWindow() {
         //设置contentView
         View contentView = LayoutInflater.from(lost1.this).inflate(R.layout.popupwindow, null);
@@ -448,4 +448,4 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-    }
+}
