@@ -34,17 +34,13 @@ public class sign_in extends Activity implements OnClickListener {
 
     // 手机号输入框
     private EditText inputPhoneEt;
-
     // 验证码输入框
     private EditText inputCodeEt;
-
     // 获取验证码按钮
     private Button requestCodeBtn;
-
     // 登录按钮
     private Button commitBtn;
-
-    //
+    //再次获取验证码相隔时间
     int i = 30;
 
     @Override
