@@ -79,6 +79,7 @@ public class UserLocateService extends Service {
                 .setSmallIcon(R.mipmap.icon)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.icon))
                 .setContentIntent(pi)
+                .setChannelId("my_channel_01")
                 .build();
         return notification;
     }
