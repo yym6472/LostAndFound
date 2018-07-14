@@ -42,7 +42,7 @@ import java.util.ArrayList;
  */
 import com.mob.MobSDK;
 
-public class sign_in extends BaseActivity implements OnClickListener {
+public class   sign_in extends BaseActivity implements OnClickListener {
     String APPKEY = "101732155b605";
     String APPSECRETE = "69d1850f4b74100266ab576b64e6cb16";
 
@@ -83,6 +83,7 @@ public class sign_in extends BaseActivity implements OnClickListener {
             }
             ActivityCompat.requestPermissions(sign_in.this, permissionsToApply, 0);
         }
+
         if(isLogIn()==true){
 
             Intent intent = new Intent(sign_in.this, UserLocateService.class);

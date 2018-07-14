@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:name=".application.ThisApplication"
@@ -32,7 +33,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="74376a3be8ea8d734ebd7824d6155173"/>
+            android:value="3f8c0454bf2a3aaa3fa44422f9b2b28c"/>
         <meta-data android:name="Mob-AppKey" android:value="26bc561d1e595 "/>
         <meta-data android:name="Mob-AppSecret" android:value="a5327ded71d9da13905c2945f064c993"/>
 
