@@ -81,6 +81,25 @@ public class found1 extends BaseActivity implements View.OnClickListener{
         spinner1=(Spinner)findViewById(R.id.kind_spinner_btn) ;
         linearLayout1=(LinearLayout)findViewById(R.id.pop_layout);
 
+        String[] permissions = new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+        };
+        ArrayList<String> permissionsList = new ArrayList<>();
+        for (int i = 0; i < permissions.length; ++i) {
+            if (ContextCompat.checkSelfPermission(found1.this, permissions[i])
+                    != PackageManager.PERMISSION_GRANTED) {
+                permissionsList.add(permissions[i]);
+            }
+        }
+        if (permissionsList.size() != 0) {
+            String[] permissionsToApply = new String[permissionsList.size()];
+            for (int i = 0; i < permissionsList.size(); ++i) {
+                permissionsToApply[i] = permissionsList.get(i);
+            }
+            ActivityCompat.requestPermissions(found1.this, permissionsToApply, 0);
+        }
+
         //解决相机闪退
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();

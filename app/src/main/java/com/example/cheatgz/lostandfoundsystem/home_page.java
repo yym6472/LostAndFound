@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.*;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by CheatGZ on 2018/3/26.
@@ -60,6 +61,25 @@ public class home_page extends BaseActivity implements View.OnClickListener{
         buttonEvent();//点击按钮事件
         setImageView();
         setTextView();
+
+        String[] permissions = new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+        };
+        ArrayList<String> permissionsList = new ArrayList<>();
+        for (int i = 0; i < permissions.length; ++i) {
+            if (ContextCompat.checkSelfPermission(home_page.this, permissions[i])
+                    != PackageManager.PERMISSION_GRANTED) {
+                permissionsList.add(permissions[i]);
+            }
+        }
+        if (permissionsList.size() != 0) {
+            String[] permissionsToApply = new String[permissionsList.size()];
+            for (int i = 0; i < permissionsList.size(); ++i) {
+                permissionsToApply[i] = permissionsList.get(i);
+            }
+            ActivityCompat.requestPermissions(home_page.this, permissionsToApply, 0);
+        }
 
         //解决相机闪退
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

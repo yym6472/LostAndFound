@@ -63,8 +63,6 @@ public class   sign_in extends BaseActivity implements OnClickListener {
         setContentView(R.layout.sign_in);
         // 权限检查
         String[] permissions = new String[]{
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.READ_PHONE_STATE

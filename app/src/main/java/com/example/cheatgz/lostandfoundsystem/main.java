@@ -1,9 +1,13 @@
 package com.example.cheatgz.lostandfoundsystem;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +17,8 @@ import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.UiSettings;
 import com.amap.api.maps2d.model.MyLocationStyle;
+
+import java.util.ArrayList;
 
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
@@ -34,6 +40,25 @@ public class main extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         initMap(savedInstanceState);//加载地图
+
+        String[] permissions = new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+        };
+        ArrayList<String> permissionsList = new ArrayList<>();
+        for (int i = 0; i < permissions.length; ++i) {
+            if (ContextCompat.checkSelfPermission(main.this, permissions[i])
+                    != PackageManager.PERMISSION_GRANTED) {
+                permissionsList.add(permissions[i]);
+            }
+        }
+        if (permissionsList.size() != 0) {
+            String[] permissionsToApply = new String[permissionsList.size()];
+            for (int i = 0; i < permissionsList.size(); ++i) {
+                permissionsToApply[i] = permissionsList.get(i);
+            }
+            ActivityCompat.requestPermissions(main.this, permissionsToApply, 0);
+        }
 
         btn1=(Button)findViewById(R.id.set);
         btn2=(Button)findViewById(R.id.message);

@@ -35,7 +35,7 @@ public class match_property extends BaseActivity {
         textView3=(TextView)findViewById(R.id.phone);
         imageView1=(ImageView)findViewById(R.id.image);
         imageView2=(ImageView)findViewById(R.id.call);
-        String string1="红色的钱包，皮革材料";
+        string1="红色的钱包，皮革材料";
         string2="王先生";
         string3="15600737700";
         textView1.setText(string1);
