@@ -35,9 +35,13 @@ import android.widget.Toast;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
 import com.example.cheatgz.lostandfoundsystem.db.LocationInfoHelper;
+import com.example.cheatgz.lostandfoundsystem.util.Uri2File;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
 import com.yymstaygold.lostandfound.client.entity.Found;
 import com.yymstaygold.lostandfound.client.entity.Item;
+import com.yymstaygold.lostandfound.client.entity.UploadImageResult;
+import com.yymstaygold.lostandfound.client.util.retrofit.LFSApiService;
+import com.yymstaygold.lostandfound.client.util.retrofit.RetrofitServiceManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,11 +52,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.RequestBody;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+
 /**
  * Created by CheatGZ on 2018/3/26.
  */
 
 public class found1 extends BaseActivity implements View.OnClickListener{
+    private static final String TAG = "found1";
+
     private Button btn1;
     private ImageView imageView1;
     private EditText editText1;
@@ -99,51 +111,71 @@ public class found1 extends BaseActivity implements View.OnClickListener{
                 }else if(string2==null||string2.length()<=0){
                     android.widget.Toast.makeText(found1.this, "请添加描述", android.widget.Toast.LENGTH_SHORT).show();
                 }else {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Found found = new Found();
-                            Item item = new Item();
-                            item.setCustomTypeName(null);
-                            // TODO: implementation of image taking or selection
-                            item.setImagePath("");
-                            item.setType(itemType);
-                            Map<String, String> properties = new HashMap<>();
-                            if (string2 != null && !string2.trim().equals("")) {
-                                String[] propertyKeyValuePairs = string2.split(";");
-                                for (String propertyKeyValuePair : propertyKeyValuePairs) {
-                                    String[] keyValue = propertyKeyValuePair.trim().split(":");
-                                    assert keyValue.length == 2;
-                                    String key = keyValue[0].trim();
-                                    String value = keyValue[1].trim();
-                                    properties.put(key, value);
+                    RetrofitServiceManager.getInstance().create(LFSApiService.class)
+                            .uploadImage(RequestBody.create(null, Uri2File.getFileByUri(imageUri, found1.this)))
+                            .map(new Func1<UploadImageResult, String>() {
+                                @Override
+                                public String call(UploadImageResult uploadImageResult) {
+                                    if (uploadImageResult.getCode() == 0) {
+                                        return uploadImageResult.getResult().getImageUrl();
+                                    } else {
+                                        return null;
+                                    }
                                 }
-                            }
-                            item.setProperties(properties);
-                            found.setItem(item);
-                            found.setFoundName(string1);
-                            ThisApplication application = (ThisApplication) getApplication();
-                            found.setUserId(application.getUserId());
-                            LocationInfoHelper helper = LocationInfoHelper.getInstance(found1.this);
-                            SQLiteDatabase sqLiteDatabase = helper.getWritableDatabase();
-                            Cursor cursor = sqLiteDatabase.query(
-                                    LocationInfoHelper.LocationInfoTable.TABLE_NAME,
-                                    new String[]{"positionX, positionY"},
-                                    "userId = ?",
-                                    new String[]{"" + application.getUserId()},
-                                    null,
-                                    null,
-                                    "time desc");
-                            if (cursor.moveToNext()) {
-                                found.setFoundPositionX(cursor.getDouble(cursor.getColumnIndex("positionX")));
-                                found.setFoundPositionY(cursor.getDouble(cursor.getColumnIndex("positionY")));
-                            }
-                            cursor.close();
-                            found.setFoundTime(new Date(System.currentTimeMillis()));
+                            })
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Action1<String>() {
+                                @Override
+                                public void call(String s) {
+                                    Log.d(TAG, "imagePath: " + s);
+                                    Found found = new Found();
+                                    Item item = new Item();
+                                    item.setCustomTypeName(null);
+                                    // TODO: implementation of image taking or selection
+                                    item.setImagePath(s);
+                                    item.setType(itemType);
+                                    Map<String, String> properties = new HashMap<>();
+                                    if (string2 != null && !string2.trim().equals("")) {
+                                        String[] propertyKeyValuePairs = string2.split(";");
+                                        for (String propertyKeyValuePair : propertyKeyValuePairs) {
+                                            String[] keyValue = propertyKeyValuePair.trim().split(":");
+                                            assert keyValue.length == 2;
+                                            String key = keyValue[0].trim();
+                                            String value = keyValue[1].trim();
+                                            properties.put(key, value);
+                                        }
+                                    }
+                                    item.setProperties(properties);
+                                    found.setItem(item);
+                                    found.setFoundName(string1);
+                                    ThisApplication application = (ThisApplication) getApplication();
+                                    found.setUserId(application.getUserId());
+                                    LocationInfoHelper helper = LocationInfoHelper.getInstance(found1.this);
+                                    SQLiteDatabase sqLiteDatabase = helper.getWritableDatabase();
+                                    Cursor cursor = sqLiteDatabase.query(
+                                            LocationInfoHelper.LocationInfoTable.TABLE_NAME,
+                                            new String[]{"positionX, positionY"},
+                                            "userId = ?",
+                                            new String[]{"" + application.getUserId()},
+                                            null,
+                                            null,
+                                            "time desc");
+                                    if (cursor.moveToNext()) {
+                                        found.setFoundPositionX(cursor.getDouble(cursor.getColumnIndex("positionX")));
+                                        found.setFoundPositionY(cursor.getDouble(cursor.getColumnIndex("positionY")));
+                                    }
+                                    cursor.close();
+                                    found.setFoundTime(new Date(System.currentTimeMillis()));
 
-                            ClientDelegation.uploadFound(found);
-                        }
-                    }).start();
+                                    ClientDelegation.uploadFound(found);
+                                }
+                            }, new Action1<Throwable>() {
+                                @Override
+                                public void call(Throwable throwable) {
+                                    Log.d(TAG, "onError: " + throwable.toString());
+                                }
+                            });
                     android.widget.Toast.makeText(found1.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();
                     finish();
                 }

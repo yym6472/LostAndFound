@@ -1,6 +1,7 @@
 package com.example.cheatgz.lostandfoundsystem;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -37,12 +38,17 @@ import android.widget.Toast;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
 import com.example.cheatgz.lostandfoundsystem.db.LocationInfoHelper;
+import com.example.cheatgz.lostandfoundsystem.util.Uri2File;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
 import com.yymstaygold.lostandfound.client.entity.Found;
 import com.yymstaygold.lostandfound.client.entity.Item;
 import com.yymstaygold.lostandfound.client.entity.Lost;
+import com.yymstaygold.lostandfound.client.entity.UploadImageResult;
+import com.yymstaygold.lostandfound.client.util.retrofit.LFSApiService;
+import com.yymstaygold.lostandfound.client.util.retrofit.RetrofitServiceManager;
 
 import java.io.File;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -51,11 +57,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.RequestBody;
+import retrofit2.Retrofit;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+
 /**
  * Created by CheatGZ on 2018/3/26.
  */
 
 public class lost1 extends BaseActivity implements View.OnClickListener{
+    private static final String TAG = "lost1";
     private Button btn1;
     private Button btn2;//close
     private ImageView imageView1;
@@ -124,66 +139,85 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
                 }else if(reward==null||reward.length()<=0){
                     android.widget.Toast.makeText(lost1.this, "悬赏金额数值不能为空", android.widget.Toast.LENGTH_SHORT).show();
                 }else{
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Lost lost = new Lost();
-                            ThisApplication application = (ThisApplication) getApplication();
-                            lost.setUserId(application.getUserId());
-                            lost.setLostName(string1);
-                            Item item = new Item();
-                            item.setType(itemType);
-                            item.setImagePath("");
-                            item.setCustomTypeName(null);
-                            Map<String, String> properties = new HashMap<>();
-                            if (string2 != null && !string2.trim().equals("")) {
-                                String[] propertyKeyValuePairs = string2.split(";");
-                                for (String propertyKeyValuePair : propertyKeyValuePairs) {
-                                    String[] keyValue = propertyKeyValuePair.trim().split(":");
-                                    assert keyValue.length == 2;
-                                    String key = keyValue[0].trim();
-                                    String value = keyValue[1].trim();
-                                    properties.put(key, value);
+                    RetrofitServiceManager.getInstance().create(LFSApiService.class)
+                            .uploadImage(RequestBody.create(null, Uri2File.getFileByUri(imageUri, lost1.this)))
+                            .map(new Func1<UploadImageResult, String>() {
+                                @Override
+                                public String call(UploadImageResult uploadImageResult) {
+                                    if (uploadImageResult.getCode() == 0) {
+                                        return uploadImageResult.getResult().getImageUrl();
+                                    } else {
+                                        return null;
+                                    }
                                 }
-                            }
-                            item.setProperties(properties);
-                            lost.setItem(item);
+                            })
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Action1<String>() {
+                                @Override
+                                public void call(String s) {
+                                    Lost lost = new Lost();
+                                    ThisApplication application = (ThisApplication) getApplication();
+                                    lost.setUserId(application.getUserId());
+                                    lost.setLostName(string1);
+                                    Item item = new Item();
+                                    item.setType(itemType);
+                                    item.setImagePath(s);
+                                    item.setCustomTypeName(null);
+                                    Map<String, String> properties = new HashMap<>();
+                                    if (string2 != null && !string2.trim().equals("")) {
+                                        String[] propertyKeyValuePairs = string2.split(";");
+                                        for (String propertyKeyValuePair : propertyKeyValuePairs) {
+                                            String[] keyValue = propertyKeyValuePair.trim().split(":");
+                                            assert keyValue.length == 2;
+                                            String key = keyValue[0].trim();
+                                            String value = keyValue[1].trim();
+                                            properties.put(key, value);
+                                        }
+                                    }
+                                    item.setProperties(properties);
+                                    lost.setItem(item);
 
-                            ArrayList<Date> lostPositionInfoTime = new ArrayList<>();
-                            ArrayList<Double> lostPositionInfoPositionX = new ArrayList<>();
-                            ArrayList<Double> lostPositionInfoPositionY = new ArrayList<>();
+                                    ArrayList<Date> lostPositionInfoTime = new ArrayList<>();
+                                    ArrayList<Double> lostPositionInfoPositionX = new ArrayList<>();
+                                    ArrayList<Double> lostPositionInfoPositionY = new ArrayList<>();
 
-                            LocationInfoHelper helper = LocationInfoHelper.getInstance(lost1.this);
-                            SQLiteDatabase sqLiteDatabase = helper.getWritableDatabase();
-                            // TODO: to change
-                            Cursor cursor = sqLiteDatabase.query(
-                                    LocationInfoHelper.LocationInfoTable.TABLE_NAME,
-                                    new String[]{"time", "positionX", "positionY"},
-                                    "userId = ? and time > ? and time < ?",
-                                    new String[]{application.getUserId() + "", (new Date().getTime() - 3600000) + "",new Date().getTime() + ""}, null, null, "time asc");
+                                    LocationInfoHelper helper = LocationInfoHelper.getInstance(lost1.this);
+                                    SQLiteDatabase sqLiteDatabase = helper.getWritableDatabase();
+                                    // TODO: to change
+                                    Cursor cursor = sqLiteDatabase.query(
+                                            LocationInfoHelper.LocationInfoTable.TABLE_NAME,
+                                            new String[]{"time", "positionX", "positionY"},
+                                            "userId = ? and time > ? and time < ?",
+                                            new String[]{application.getUserId() + "", (new Date().getTime() - 3600000) + "", new Date().getTime() + ""}, null, null, "time asc");
 
-                            while (cursor.moveToNext()) {
-                                lostPositionInfoTime.add(new Date(cursor.getLong(cursor.getColumnIndex("time"))));
-                                lostPositionInfoPositionX.add(cursor.getDouble(cursor.getColumnIndex("positionX")));
-                                lostPositionInfoPositionY.add(cursor.getDouble(cursor.getColumnIndex("positionY")));
-                            }
-                            lost.setLostPositionInfoTime(lostPositionInfoTime);
-                            lost.setLostPositionInfoPositionX(lostPositionInfoPositionX);
-                            lost.setLostPositionInfoPositionY(lostPositionInfoPositionY);
+                                    while (cursor.moveToNext()) {
+                                        lostPositionInfoTime.add(new Date(cursor.getLong(cursor.getColumnIndex("time"))));
+                                        lostPositionInfoPositionX.add(cursor.getDouble(cursor.getColumnIndex("positionX")));
+                                        lostPositionInfoPositionY.add(cursor.getDouble(cursor.getColumnIndex("positionY")));
+                                    }
+                                    lost.setLostPositionInfoTime(lostPositionInfoTime);
+                                    lost.setLostPositionInfoPositionX(lostPositionInfoPositionX);
+                                    lost.setLostPositionInfoPositionY(lostPositionInfoPositionY);
 
-                            ArrayList<Integer> matchResults = ClientDelegation.uploadLost(lost);
-                            System.out.println("MATCH_RESULT" + matchResults);
-                            if (matchResults != null && matchResults.size() > 0) {
-                                string3 = new String[matchResults.size()];
-                                founds = new Found[matchResults.size()];
-                                for (int i = 0; i < matchResults.size(); ++i) {
-                                    founds[i] = ClientDelegation.downloadFoundInfo(matchResults.get(i));
-                                    string3[i] = founds[i].getFoundName();
+                                    ArrayList<Integer> matchResults = ClientDelegation.uploadLost(lost);
+                                    System.out.println("MATCH_RESULT" + matchResults);
+                                    if (matchResults != null && matchResults.size() > 0) {
+                                        string3 = new String[matchResults.size()];
+                                        founds = new Found[matchResults.size()];
+                                        for (int i = 0; i < matchResults.size(); ++i) {
+                                            founds[i] = ClientDelegation.downloadFoundInfo(matchResults.get(i));
+                                            string3[i] = founds[i].getFoundName();
+                                        }
+                                    }
+                                    handler.post(runnableUi);
                                 }
-                            }
-                            handler.post(runnableUi);
-                        }
-                    }).start();
+                            }, new Action1<Throwable>() {
+                                @Override
+                                public void call(Throwable throwable) {
+                                    Log.d(TAG, "onError: " + throwable.toString());
+                                }
+                            });
                     android.widget.Toast.makeText(lost1.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();
                     linearLayout1.setBackgroundColor(0xFF969696);
                     linearLayout1.setAlpha((float) 0.1);
@@ -450,4 +484,8 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+
+
+
 }
