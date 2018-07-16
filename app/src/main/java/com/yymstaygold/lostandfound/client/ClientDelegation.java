@@ -12,6 +12,7 @@ import com.yymstaygold.lostandfound.client.util.match.MatchInfo;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -114,11 +115,6 @@ public class ClientDelegation {
         return false;
     }
 
-    public static String uploadImage(Bitmap image) {
-        // TODO: implement
-        return null;
-    }
-
     public static void uploadFound(Found found) {
         String urlString = "http://23.106.132.78/LostAndFoundServer/upload_found";
         try {
@@ -177,11 +173,6 @@ public class ClientDelegation {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
-    }
-
-    public static Bitmap downloadImage(String imagePath) {
-        // TODO: implement
         return null;
     }
 

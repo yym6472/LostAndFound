@@ -62,6 +62,7 @@ public class found1 extends BaseActivity implements View.OnClickListener{
     private int itemType;//分类
     private Spinner spinner1;
     private LinearLayout linearLayout1;
+    private Bitmap bit;
 
     private static final int CROP_PHOTO = 2;
     private static final int REQUEST_CODE_PICK_IMAGE=3;
@@ -305,7 +306,7 @@ public class found1 extends BaseActivity implements View.OnClickListener{
                         /**
                          * 该uri就是照片文件夹对应的uri
                          */
-                        Bitmap bit = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        bit = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
                         imageView1.setImageBitmap(bit);
                     } catch (Exception e) {
                         Toast.makeText(this,"程序崩溃",Toast.LENGTH_SHORT).show();
@@ -327,7 +328,8 @@ public class found1 extends BaseActivity implements View.OnClickListener{
                          * 该uri是上一个Activity返回的
                          */
                         Uri uri = data.getData();
-                        Bitmap bit = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+                        imageUri = uri;
+                        bit = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
                         imageView1.setImageBitmap(bit);
                     } catch (Exception e) {
                         e.printStackTrace();

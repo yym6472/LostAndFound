@@ -33,6 +33,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
+import com.example.cheatgz.lostandfoundsystem.baidupush.BaiduPushService;
 import com.example.cheatgz.lostandfoundsystem.service.UserLocateService;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
 import java.util.ArrayList;
@@ -84,6 +85,7 @@ public class sign_in extends BaseActivity implements OnClickListener {
             ActivityCompat.requestPermissions(sign_in.this, permissionsToApply, 0);
         }
         if(isLogIn()==true){
+            BaiduPushService.startWork(this);
 
             Intent intent = new Intent(sign_in.this, UserLocateService.class);
             startService(intent);
@@ -191,6 +193,8 @@ public class sign_in extends BaseActivity implements OnClickListener {
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     // 短信注册成功后，返回MainActivity,然后提示
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
+                        BaiduPushService.startWork(sign_in.this);
+
                         Intent intent = new Intent(sign_in.this, UserLocateService.class);
                         startService(intent);
 
