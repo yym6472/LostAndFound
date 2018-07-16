@@ -52,6 +52,7 @@
         <activity android:name=".found1" />
         <activity android:name=".home_page" />
         <activity android:name=".info" />
+        <activity android:name=".InputTipsActivity"/>
         <activity android:name=".lost1" />
         <activity android:name=".main" />
         <activity android:name=".match_property" />
