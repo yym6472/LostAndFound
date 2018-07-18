@@ -16,6 +16,7 @@ import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.LatLng;
 import com.example.cheatgz.lostandfoundsystem.R;
+import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
 import com.example.cheatgz.lostandfoundsystem.db.LocationInfoHelper;
 import com.example.cheatgz.lostandfoundsystem.util.AMapInteractiveHelper;
 import com.victor.library.wheelview.WheelView;
@@ -62,8 +63,8 @@ public class TrackFragment extends Fragment {
                         LocationInfoHelper.LocationInfoTable.COLUMN_NAME_POSITION_Y
                 },
                 LocationInfoHelper.LocationInfoTable.COLUMN_NAME_USER_ID + "=?",
-//                new String[] {((ThisApplication)getActivity().getApplication()).getUserId() + ""}, // TODO
-                new String[] {"24"},
+                new String[] {((ThisApplication)getActivity().getApplication()).getUserId() + ""},
+//                new String[] {"24"},
                 null, null,
                 LocationInfoHelper.LocationInfoTable.COLUMN_NAME_TIME,
                 null);

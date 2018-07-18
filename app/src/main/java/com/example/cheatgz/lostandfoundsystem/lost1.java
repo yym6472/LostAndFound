@@ -34,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
@@ -96,7 +97,7 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 7;
     private File output;
     private PopupWindow popupWindow;
-    private Uri imageUri;
+    private Uri imageUri = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +139,9 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
                     android.widget.Toast.makeText(lost1.this, "请添加描述", android.widget.Toast.LENGTH_SHORT).show();
                 }else if(reward==null||reward.length()<=0){
                     android.widget.Toast.makeText(lost1.this, "悬赏金额数值不能为空", android.widget.Toast.LENGTH_SHORT).show();
-                }else{
+                } else if (imageUri == null) {
+                    Toast.makeText(lost1.this, "请选择图片", Toast.LENGTH_SHORT).show();
+                } else{
                     RetrofitServiceManager.getInstance().create(LFSApiService.class)
                             .uploadImage(RequestBody.create(null, Uri2File.getFileByUri(imageUri, lost1.this)))
                             .map(new Func1<UploadImageResult, String>() {
@@ -152,7 +155,7 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
                                 }
                             })
                             .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
+                            .observeOn(Schedulers.newThread())
                             .subscribe(new Action1<String>() {
                                 @Override
                                 public void call(String s) {
@@ -215,7 +218,7 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
                             }, new Action1<Throwable>() {
                                 @Override
                                 public void call(Throwable throwable) {
-                                    Log.d(TAG, "onError: " + throwable.toString());
+                                    throwable.printStackTrace();
                                 }
                             });
                     android.widget.Toast.makeText(lost1.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();

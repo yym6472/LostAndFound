@@ -23,98 +23,6 @@ import java.util.ArrayList;
 
 public class ClientDelegation {
 
-    private static String getMD5(String s) {
-        char hexDigits[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-        try {
-            byte[] btInput = s.getBytes("utf-8");
-            MessageDigest mdInst = MessageDigest.getInstance("MD5");
-            mdInst.update(btInput);
-            byte[] md = mdInst.digest();
-            int j = md.length;
-            char str[] = new char[j * 2];
-            int k = 0;
-            for (int i = 0; i < j; i++) {
-                byte byte0 = md[i];
-                str[k++] = hexDigits[byte0 >>> 4 & 0xf];
-                str[k++] = hexDigits[byte0 & 0xf];
-            }
-            return new String(str);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Check if the user's phone number and password match or not.
-     * @param phoneNumber the input phone number
-     * @param password the input plain password
-     * @return the user id of user, or -1 if the phoneNumber or password not exists
-     */
-    public static int checkPassword(String phoneNumber, String password) {
-        String urlString = "http://23.106.132.78/LostAndFoundServer/check_password";
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            conn.setUseCaches(false);
-            conn.setRequestMethod("POST");
-            conn.setReadTimeout(6000);
-            DataOutputStream out = new DataOutputStream(conn.getOutputStream());
-            out.writeUTF(phoneNumber);
-            out.writeUTF(getMD5(password));
-            out.flush();
-            out.close();
-
-            if (conn.getResponseCode() == 200) {
-                DataInputStream in = new DataInputStream(conn.getInputStream());
-                int userId = in.readInt();
-                conn.disconnect();
-                return userId;
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return -1;
-    }
-
-    /**
-     * Register user info to server.
-     * @return true if register succeed, false otherwise.
-     */
-    public static boolean register(User user) {
-        String urlString = "http://23.106.132.78/LostAndFoundServer/register";
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            conn.setUseCaches(false);
-            conn.setRequestMethod("POST");
-            conn.setReadTimeout(6000);
-            DataOutputStream out = new DataOutputStream(conn.getOutputStream());
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-            mapper.writeValue(out, user);
-            out.flush();
-            out.close();
-
-            if (conn.getResponseCode() == 200) {
-                DataInputStream in = new DataInputStream(conn.getInputStream());
-                boolean result = in.readBoolean();
-                conn.disconnect();
-                return result;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     public static void uploadFound(Found found) {
         String urlString = "http://23.106.132.78/LostAndFoundServer/upload_found";
         try {
@@ -322,13 +230,5 @@ public class ClientDelegation {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-
-        //System.out.println(checkPassword("13126609255", "zhunixingfu"));
-
-        //System.out.println(register("13186879355", "zhunixingfu"));
-
     }
 }

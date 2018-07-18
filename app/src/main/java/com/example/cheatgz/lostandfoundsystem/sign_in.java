@@ -84,15 +84,16 @@ public class sign_in extends BaseActivity implements OnClickListener {
             }
             ActivityCompat.requestPermissions(sign_in.this, permissionsToApply, 0);
         }
-        if(isLogIn()==true){
+        if(isLogIn()){
+            SharedPreferences sp=getSharedPreferences("identification",MODE_PRIVATE);
+            String phoneNumber = sp.getString("phoneNumber", "");
+
+            ((ThisApplication)getApplication()).setPhoneNumber(phoneNumber);
+
             BaiduPushService.startWork(this);
 
             Intent intent = new Intent(sign_in.this, UserLocateService.class);
             startService(intent);
-
-            // TODO: get userId here
-                        ThisApplication application = (ThisApplication) getApplication();
-                        application.setUserId(24);
 
             Toast.makeText(getApplicationContext(), "登录成功",
                     Toast.LENGTH_SHORT).show();
@@ -193,14 +194,12 @@ public class sign_in extends BaseActivity implements OnClickListener {
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     // 短信注册成功后，返回MainActivity,然后提示
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
+                        ((ThisApplication)getApplication()).setPhoneNumber(inputPhoneEt.getText().toString());
+
                         BaiduPushService.startWork(sign_in.this);
 
                         Intent intent = new Intent(sign_in.this, UserLocateService.class);
                         startService(intent);
-
-                        // TODO: get userId here
-                        ThisApplication application = (ThisApplication) getApplication();
-                        application.setUserId(24);
 
                         Toast.makeText(getApplicationContext(), "登录成功",
                                 Toast.LENGTH_SHORT).show();
@@ -288,6 +287,7 @@ public class sign_in extends BaseActivity implements OnClickListener {
         SharedPreferences sp1=getSharedPreferences("identification",MODE_PRIVATE);
         SharedPreferences.Editor ed=sp1.edit();
         ed.putBoolean("state",true);
+        ed.putString("phoneNumber", inputPhoneEt.getText().toString());
         ed.commit();
     }
     /* 判断是否登录状态 */

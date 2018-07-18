@@ -82,7 +82,7 @@ public class found1 extends BaseActivity implements View.OnClickListener{
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE2 = 7;
     private File output;
     private PopupWindow popupWindow;
-    private Uri imageUri;
+    private Uri imageUri = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +110,9 @@ public class found1 extends BaseActivity implements View.OnClickListener{
                     android.widget.Toast.makeText(found1.this, "请添加备注名", android.widget.Toast.LENGTH_SHORT).show();
                 }else if(string2==null||string2.length()<=0){
                     android.widget.Toast.makeText(found1.this, "请添加描述", android.widget.Toast.LENGTH_SHORT).show();
-                }else {
+                } else if (imageUri == null) {
+                    Toast.makeText(found1.this, "请选择图片", Toast.LENGTH_SHORT).show();
+                } else {
                     RetrofitServiceManager.getInstance().create(LFSApiService.class)
                             .uploadImage(RequestBody.create(null, Uri2File.getFileByUri(imageUri, found1.this)))
                             .map(new Func1<UploadImageResult, String>() {
@@ -124,11 +126,10 @@ public class found1 extends BaseActivity implements View.OnClickListener{
                                 }
                             })
                             .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
+                            .observeOn(Schedulers.newThread())
                             .subscribe(new Action1<String>() {
                                 @Override
                                 public void call(String s) {
-                                    Log.d(TAG, "imagePath: " + s);
                                     Found found = new Found();
                                     Item item = new Item();
                                     item.setCustomTypeName(null);
@@ -173,7 +174,7 @@ public class found1 extends BaseActivity implements View.OnClickListener{
                             }, new Action1<Throwable>() {
                                 @Override
                                 public void call(Throwable throwable) {
-                                    Log.d(TAG, "onError: " + throwable.toString());
+                                    throwable.printStackTrace();
                                 }
                             });
                     android.widget.Toast.makeText(found1.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();
