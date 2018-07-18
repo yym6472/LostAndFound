@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +44,12 @@ public class BaseActivity extends AppCompatActivity {
     class ForceOfflineReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, final Intent intent){
+
+            SharedPreferences sp=getSharedPreferences("identification",MODE_PRIVATE);
+            SharedPreferences.Editor ed = sp.edit();
+            ed.remove("state");
+            ed.apply();
+
             AlertDialog.Builder builder=new AlertDialog.Builder(context);
             builder.setTitle("Warning");
             builder.setMessage("你的账号在另一个设备上登录，你已被强制下线。");

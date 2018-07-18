@@ -288,7 +288,7 @@ public class sign_in extends BaseActivity implements OnClickListener {
         SharedPreferences.Editor ed=sp1.edit();
         ed.putBoolean("state",true);
         ed.putString("phoneNumber", inputPhoneEt.getText().toString());
-        ed.commit();
+        ed.apply();
     }
     /* 判断是否登录状态 */
     protected Boolean isLogIn(){

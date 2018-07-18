@@ -31,6 +31,7 @@ public class LoginResult {
 
     public static class ResultBean {
         private int userId;
+        private boolean firstLogin;
 
         public int getUserId() {
             return userId;
@@ -38,6 +39,14 @@ public class LoginResult {
 
         public void setUserId(int userId) {
             this.userId = userId;
+        }
+
+        public boolean isFirstLogin() {
+            return firstLogin;
+        }
+
+        public void setFirstLogin(boolean firstLogin) {
+            this.firstLogin = firstLogin;
         }
     }
 }

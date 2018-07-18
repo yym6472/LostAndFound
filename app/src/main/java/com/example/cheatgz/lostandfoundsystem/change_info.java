@@ -7,6 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
+import com.yymstaygold.lostandfound.client.entity.ResultWithoutData;
+import com.yymstaygold.lostandfound.client.entity.UserInfo;
+import com.yymstaygold.lostandfound.client.util.retrofit.LFSApiService;
+import com.yymstaygold.lostandfound.client.util.retrofit.RetrofitServiceManager;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
 /**
  * Created by CheatGZ on 2018/3/26.
  */
@@ -43,8 +53,27 @@ public class change_info extends BaseActivity {
                 string3=editText3.getText().toString();
                 string4=editText4.getText().toString();
                 string5=editText5.getText().toString();
-                android.widget.Toast.makeText(change_info.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();
-                finish();
+
+                int userId = ((ThisApplication)getApplication()).getUserId();
+                UserInfo userInfo = new UserInfo();
+                userInfo.setUserId(userId);
+                userInfo.setName(string1);
+                userInfo.setWork(string2);
+                userInfo.setAddress(string3);
+                userInfo.setMail(string5);
+                RetrofitServiceManager.getInstance().create(LFSApiService.class)
+                        .changeInfo(userInfo)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<ResultWithoutData>() {
+                            @Override
+                            public void call(ResultWithoutData resultWithoutData) {
+                                if (resultWithoutData.getCode() == 0) {
+                                    android.widget.Toast.makeText(change_info.this, "提交成功", android.widget.Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            }
+                        });
             }
         });
     }
