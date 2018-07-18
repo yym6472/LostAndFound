@@ -33,6 +33,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.example.cheatgz.lostandfoundsystem.application.ThisApplication;
+import com.example.cheatgz.lostandfoundsystem.service.IsMovingService;
 import com.example.cheatgz.lostandfoundsystem.service.UserLocateService;
 import com.yymstaygold.lostandfound.client.ClientDelegation;
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ public class   sign_in extends BaseActivity implements OnClickListener {
 
         if(isLogIn()==true){
 
-            Intent intent = new Intent(sign_in.this, UserLocateService.class);
+            Intent intent = new Intent(sign_in.this, IsMovingService.class);
             startService(intent);
 
             // TODO: get userId here
@@ -190,7 +191,7 @@ public class   sign_in extends BaseActivity implements OnClickListener {
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     // 短信注册成功后，返回MainActivity,然后提示
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
-                        Intent intent = new Intent(sign_in.this, UserLocateService.class);
+                        Intent intent = new Intent(sign_in.this, IsMovingService.class);
                         startService(intent);
 
                         // TODO: get userId here

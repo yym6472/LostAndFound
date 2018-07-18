@@ -32,7 +32,7 @@ public class UserLocateService extends Service {
 
         intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_TIME_TICK);
-        receiver = new TrackRecordReceiver(new TrackRecordReceiver.OnTrackedListener() {
+        receiver = new TrackRecordReceiver(new TrackRecordReceiver.OnTrackedListener(){
             @Override
             public void OnTracked(double lat, double lng, Date time) {
                 startForeground(1, createTrackNotification(false, time, lat, lng));
