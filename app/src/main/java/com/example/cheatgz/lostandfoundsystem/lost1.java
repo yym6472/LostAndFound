@@ -120,6 +120,25 @@ public class lost1 extends BaseActivity implements View.OnClickListener{
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
         }
+        String[] permissions = new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+        };
+        ArrayList<String> permissionsList = new ArrayList<>();
+        for (int i = 0; i < permissions.length; ++i) {
+            if (ContextCompat.checkSelfPermission(lost1.this, permissions[i])
+                    != PackageManager.PERMISSION_GRANTED) {
+                permissionsList.add(permissions[i]);
+            }
+        }
+        if (permissionsList.size() != 0) {
+            String[] permissionsToApply = new String[permissionsList.size()];
+            for (int i = 0; i < permissionsList.size(); ++i) {
+                permissionsToApply[i] = permissionsList.get(i);
+            }
+            ActivityCompat.requestPermissions(lost1.this, permissionsToApply, 0);
+        }
+
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

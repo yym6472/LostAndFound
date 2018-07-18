@@ -84,6 +84,7 @@ public class sign_in extends BaseActivity implements OnClickListener {
             }
             ActivityCompat.requestPermissions(sign_in.this, permissionsToApply, 0);
         }
+
         if(isLogIn()){
             SharedPreferences sp=getSharedPreferences("identification",MODE_PRIVATE);
             String phoneNumber = sp.getString("phoneNumber", "");

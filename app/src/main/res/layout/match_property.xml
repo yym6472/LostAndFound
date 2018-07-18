@@ -30,14 +30,14 @@
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:contentPadding="10dp">
-    <TextView
-        android:id="@+id/describe"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="13sp"
-        android:hint="@string/describe" />
+        <TextView
+            android:id="@+id/describe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:hint="@string/describe" />
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView
         android:layout_width="300dp"
@@ -56,19 +56,43 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
+                android:paddingLeft="5dp"
                 android:text="@string/contractInfo"/>
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:hint="@string/name"/>
-        <TextView
-            android:id="@+id/phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:hint="@string/phone" />
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TableRow>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:paddingLeft="5dp"
+                        android:text="@string/name"/>
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:hint="@string/name"/>
+                </TableRow>
+                <TableRow>
+
+                    <ImageView
+                        android:id="@+id/call"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:paddingLeft="-6dp"
+                        android:src="@mipmap/call" />
+                    <TextView
+                        android:id="@+id/phone"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:hint="@string/phone" />
+                </TableRow>
+            </TableLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

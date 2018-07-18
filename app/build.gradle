@@ -32,7 +32,6 @@ MobSDK {
     appSecret "a5327ded71d9da13905c2945f064c993"
 
     SMSSDK {}
-    MobPush {}
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
