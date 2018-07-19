@@ -39,13 +39,18 @@ public class BaiduPushReceiver extends PushMessageReceiver {
                         @Override
                         public void call(LoginResult loginResult) {
                             Log.d(TAG, "userId: " + loginResult.getResult().getUserId());
-                            ((ThisApplication)context.getApplicationContext()).setUserId(loginResult.getResult().getUserId());
+                            ((ThisApplication) context.getApplicationContext()).setUserId(loginResult.getResult().getUserId());
                             if (loginResult.getResult().isFirstLogin()) {
-                                Toast.makeText(context, "系统检测到你是第一次登录，请设置个人信息。", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "系统检测到你是第一次登录，请设置个人信息", Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(context, change_info.class);
                                 context.startActivity(intent);
                             }
+                        }
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            Toast.makeText(context, "连接服务器失败", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
